@@ -34,19 +34,40 @@ if %ERRORLEVEL% NEQ 0 (
 
 echo [1/8] Verification des dependances...
 
-REM Vérifier si les dépendances sont installées
+REM Vérifier si les dépendances sont réellement installées (packages critiques)
 set NEED_INSTALL=0
 
+REM Vérifier backend
 if not exist "backend\node_modules" (
-    echo Dependances backend manquantes
+    echo Dossier node_modules backend manquant
     set NEED_INSTALL=1
+) else (
+    if not exist "backend\node_modules\express" (
+        echo Package Express manquant dans backend
+        set NEED_INSTALL=1
+    )
+    if not exist "backend\node_modules\bcryptjs" (
+        echo Package bcryptjs manquant dans backend
+        set NEED_INSTALL=1
+    )
 )
 
+REM Vérifier frontend
 if not exist "frontend\node_modules" (
-    echo Dependances frontend manquantes
+    echo Dossier node_modules frontend manquant
     set NEED_INSTALL=1
+) else (
+    if not exist "frontend\node_modules\react" (
+        echo Package React manquant dans frontend
+        set NEED_INSTALL=1
+    )
+    if not exist "frontend\node_modules\vite" (
+        echo Package Vite manquant dans frontend
+        set NEED_INSTALL=1
+    )
 )
 
+REM Vérifier .env
 if not exist "backend\.env" (
     echo Fichier .env manquant
     set NEED_INSTALL=1
@@ -133,8 +154,8 @@ echo Port 5173 libre
 echo [7/8] Demarrage du backend...
 cd backend
 
-REM Démarrer le backend en arrière-plan
-start /B "Florizar Backend" cmd /c "node src/server.js > backend.log 2>&1"
+REM Démarrer le backend dans une fenêtre CMD séparée pour voir les erreurs
+start "Florizar Backend - NE PAS FERMER" cmd /k "node src/server.js"
 
 echo Attente du backend (verification du port 5000)...
 
@@ -157,8 +178,21 @@ if %counter% LSS 15 (
     goto wait_backend
 )
 
-echo ERREUR: Le backend n'a pas demarre apres 30 secondes
-echo Verifiez le fichier backend\backend.log pour plus de details
+echo.
+echo ========================================
+echo   ERREUR: BACKEND N'A PAS DEMARRE
+echo ========================================
+echo.
+echo Le backend n'a pas demarre apres 30 secondes.
+echo.
+echo VERIFIEZ LA FENETRE "Florizar Backend - NE PAS FERMER"
+echo pour voir le message d'erreur exact.
+echo.
+echo Erreurs possibles:
+echo - Dependances manquantes ou corrompues
+echo - Port 5000 deja utilise
+echo - Erreur dans le code backend
+echo.
 cd ..
 pause
 exit /b 1
@@ -185,12 +219,14 @@ echo.
 echo Backend:  http://localhost:5000
 echo Frontend: http://localhost:5173
 echo.
-echo Pour arreter l'application:
-echo   - Fermez les fenetres de commande
-echo   - Ou appuyez sur Ctrl+C dans chaque fenetre
+echo IMPORTANT:
+echo - Gardez la fenetre "Florizar Backend" ouverte
+echo - Gardez la fenetre "Florizar Frontend" ouverte
+echo - Les erreurs s'affichent directement dans ces fenetres
 echo.
-echo Le backend tourne en arriere-plan.
-echo Les logs sont dans backend\backend.log
+echo Pour arreter l'application:
+echo   - Fermez les fenetres "Florizar Backend" et "Florizar Frontend"
+echo   - Ou appuyez sur Ctrl+C dans chaque fenetre
 echo.
 
 pause
