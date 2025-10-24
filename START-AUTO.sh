@@ -40,7 +40,43 @@ if ! command -v node &> /dev/null; then
     error "Node.js n'est pas installé. Installez-le depuis https://nodejs.org/"
 fi
 
-echo "[1/4] Démarrage du backend..."
+# Fonction pour libérer un port
+kill_port() {
+    local port=$1
+    local port_name=$2
+
+    echo "[$3] Vérification et libération du port $port ($port_name)..."
+
+    # Essayer avec lsof (plus portable)
+    if command -v lsof &> /dev/null; then
+        local pid=$(lsof -ti:$port 2>/dev/null)
+        if [ ! -z "$pid" ]; then
+            info "Port $port occupé par PID $pid - Libération en cours..."
+            kill -9 $pid 2>/dev/null
+            sleep 1
+        fi
+    # Fallback avec fuser
+    elif command -v fuser &> /dev/null; then
+        fuser -k ${port}/tcp 2>/dev/null
+        sleep 1
+    # Fallback avec netstat
+    else
+        local pid=$(netstat -tlnp 2>/dev/null | grep ":$port " | awk '{print $7}' | cut -d'/' -f1)
+        if [ ! -z "$pid" ]; then
+            info "Port $port occupé par PID $pid - Libération en cours..."
+            kill -9 $pid 2>/dev/null
+            sleep 1
+        fi
+    fi
+
+    success "Port $port libre"
+}
+
+# Libérer les ports avant de démarrer
+kill_port 5000 "backend" "1/6"
+kill_port 5173 "frontend" "2/6"
+
+echo "[3/6] Démarrage du backend..."
 cd backend
 
 # Démarrer le backend en arrière-plan
@@ -49,7 +85,7 @@ BACKEND_PID=$!
 
 info "Backend démarré avec PID: $BACKEND_PID"
 
-echo "[2/4] Attente du backend (vérification du port 5000)..."
+echo "[4/6] Attente du backend (vérification du port 5000)..."
 
 # Attendre que le backend soit prêt (max 30 secondes)
 counter=0
@@ -79,7 +115,7 @@ fi
 
 cd ..
 
-echo "[3/4] Démarrage du frontend..."
+echo "[5/6] Démarrage du frontend..."
 cd frontend
 
 # Démarrer le frontend dans un nouveau terminal
@@ -106,7 +142,7 @@ fi
 cd ..
 
 echo ""
-echo "[4/4] Florizar démarré !"
+echo "[6/6] Florizar démarré !"
 echo ""
 echo "========================================"
 echo "  APPLICATION DEMARREE AVEC SUCCES"

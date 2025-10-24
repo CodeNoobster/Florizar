@@ -19,13 +19,35 @@ if %ERRORLEVEL% NEQ 0 (
     exit /b 1
 )
 
-echo [1/4] Demarrage du backend...
+echo [1/6] Verification et liberation du port 5000 (backend)...
+
+REM Vérifier si le port 5000 est occupé
+for /f "tokens=5" %%a in ('netstat -ano ^| findstr :5000 ^| findstr LISTENING') do (
+    echo Port 5000 occupe par PID %%a - Liberation en cours...
+    taskkill /F /PID %%a >nul 2>&1
+    timeout /t 1 /nobreak >nul
+)
+
+echo Port 5000 libre
+
+echo [2/6] Verification et liberation du port 5173 (frontend)...
+
+REM Vérifier si le port 5173 est occupé
+for /f "tokens=5" %%a in ('netstat -ano ^| findstr :5173 ^| findstr LISTENING') do (
+    echo Port 5173 occupe par PID %%a - Liberation en cours...
+    taskkill /F /PID %%a >nul 2>&1
+    timeout /t 1 /nobreak >nul
+)
+
+echo Port 5173 libre
+
+echo [3/6] Demarrage du backend...
 cd backend
 
 REM Démarrer le backend en arrière-plan
 start /B "Florizar Backend" cmd /c "node src/server.js > backend.log 2>&1"
 
-echo [2/4] Attente du backend (verification du port 5000)...
+echo [4/6] Attente du backend (verification du port 5000)...
 
 REM Attendre que le backend soit prêt (max 30 secondes)
 set /a counter=0
@@ -56,7 +78,7 @@ exit /b 1
 
 cd ..
 
-echo [3/4] Demarrage du frontend...
+echo [5/6] Demarrage du frontend...
 cd frontend
 
 REM Démarrer le frontend
@@ -65,7 +87,7 @@ start "Florizar Frontend" cmd /k "npm run dev"
 cd ..
 
 echo.
-echo [4/4] Florizar demarre !
+echo [6/6] Florizar demarre !
 echo.
 echo ========================================
 echo   APPLICATION DEMARREE AVEC SUCCES
