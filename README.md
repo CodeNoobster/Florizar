@@ -2,6 +2,30 @@
 
 Application web complète pour la gestion de chantiers paysagistes avec suivi des clients, des travaux et des photos.
 
+## 🚀 Installation en 1 CLIC
+
+### **Première fois ? Installez tout automatiquement !**
+
+**Windows :**
+```
+Double-cliquez sur INSTALL.bat
+```
+
+**Linux / Mac :**
+```bash
+./INSTALL.sh
+```
+
+Le script **INSTALL** configure **automatiquement** :
+- ✅ Toutes les dépendances (backend + frontend)
+- ✅ Configuration de l'environnement (.env)
+- ✅ Génération sécurisée du JWT_SECRET
+- ✅ Tous les dossiers nécessaires
+
+➜ **[Guide d'installation détaillé](README-INSTALLATION.md)**
+
+---
+
 ## ⚡ Démarrage Rapide (Test & Itération)
 
 ### 🖱️ **Double-cliquez simplement sur un fichier :**
