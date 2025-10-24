@@ -4,30 +4,45 @@ Application web complète pour la gestion de chantiers paysagistes avec suivi de
 
 ## 📋 Fonctionnalités
 
+### Architecture Évolutive
+- **Structure modulaire** prête pour l'ajout de nouvelles fonctionnalités
+- **Sidebar collapsable** avec navigation extensible par sections
+- **Base de données complète** avec tables préparées pour :
+  - Devis et factures
+  - Interventions détaillées
+  - Gestion d'équipements
+  - Et bien plus...
+
 ### Gestion des Clients
-- Création de fiches clients détaillées (nom, contact, adresse, notes)
+- Création de fiches clients complètes (coordonnées, entreprise, notes)
+- **Page de détail client** avec vue d'ensemble de tous ses chantiers
 - Modification et suppression des clients
-- Recherche de clients
+- Recherche et filtrage
 - Vue en grille responsive
+- **Relation 1-N** : Un client peut avoir plusieurs chantiers
 
 ### Gestion des Chantiers
-- Création de chantiers avec dates de début/fin
+- Création de chantiers liés à un client
 - Suivi du statut (planifié, en cours, terminé, annulé)
+- Dates de début, fin et prévisions
 - Résumé des travaux effectués
 - Notes pour les interventions futures
-- Association avec les clients
-- Upload et gestion de photos par chantier
+- Upload et galerie de photos par chantier
+- **Navigation facile** entre clients et leurs chantiers
 
 ### Sécurité
 - Authentification JWT
 - Gestion des sessions utilisateur
 - Protection des routes API
+- Hashage sécurisé des mots de passe
 
-### Interface
+### Interface Moderne
+- **Sidebar collapsable** avec menu extensible
 - Thème sombre moderne et responsive
 - Design adapté mobile/tablette/desktop
-- Navigation intuitive
+- Navigation intuitive par sections
 - Tableau de bord avec statistiques
+- Topbar avec accès rapide
 
 ## 🛠️ Technologies utilisées
 
@@ -95,23 +110,27 @@ L'application démarre sur **http://localhost:3000**
 
 ### Gestion des clients
 
-1. Cliquez sur "Clients" dans la navigation
+1. Cliquez sur "Clients" dans la sidebar (section Gestion)
 2. Cliquez sur "+ Nouveau Client" pour ajouter un client
 3. Remplissez les informations et sauvegardez
-4. Vous pouvez modifier ou supprimer les clients depuis leurs fiches
+4. Cliquez sur "Voir détails" pour accéder à la fiche complète du client
+5. Sur la page de détail, vous voyez tous les chantiers du client
+6. Vous pouvez modifier ou supprimer les clients
 
 ### Gestion des chantiers
 
-1. Cliquez sur "Chantiers" dans la navigation
+1. Cliquez sur "Chantiers" dans la sidebar (section Gestion)
 2. Cliquez sur "+ Nouveau Chantier"
-3. Sélectionnez un client existant
+3. **Sélectionnez un client** (un chantier appartient à un seul client)
 4. Remplissez les détails du chantier :
    - Titre
    - Dates de début et fin
    - Statut
-   - Résumé des travaux
+   - Résumé des travaux effectués
    - Notes pour la prochaine fois
 5. Une fois le chantier créé, cliquez sur "📷 Photos" pour ajouter des photos
+
+**Astuce** : Depuis la fiche d'un client, vous pouvez créer directement un chantier pour ce client !
 
 ## 📂 Structure du projet
 
@@ -119,24 +138,46 @@ L'application démarre sur **http://localhost:3000**
 Florizar/
 ├── backend/
 │   ├── src/
-│   │   ├── config/         # Configuration BDD
-│   │   ├── models/         # Modèles de données
-│   │   ├── routes/         # Routes API
-│   │   ├── controllers/    # Logique métier
-│   │   ├── middleware/     # Middleware auth
-│   │   └── server.js       # Serveur Express
-│   ├── uploads/            # Photos uploadées
+│   │   ├── config/
+│   │   │   └── database.js         # Config BDD évolutive
+│   │   ├── models/                 # Modèles de données
+│   │   │   ├── User.js
+│   │   │   ├── Client.js
+│   │   │   ├── Chantier.js
+│   │   │   └── Photo.js
+│   │   ├── routes/                 # Routes API REST
+│   │   │   ├── auth.js
+│   │   │   ├── clients.js
+│   │   │   ├── chantiers.js
+│   │   │   └── photos.js
+│   │   ├── controllers/            # Logique métier
+│   │   ├── middleware/             # Middleware auth
+│   │   └── server.js               # Serveur Express
+│   ├── uploads/                    # Photos uploadées
+│   ├── database.sqlite             # Base de données
 │   ├── package.json
-│   └── .env                # Variables d'environnement
+│   └── .env
 │
 ├── frontend/
 │   ├── src/
-│   │   ├── components/     # Composants React
-│   │   ├── pages/          # Pages de l'app
-│   │   ├── services/       # API et contextes
-│   │   ├── styles/         # CSS
-│   │   ├── App.jsx         # App principale
-│   │   └── main.jsx        # Point d'entrée
+│   │   ├── components/             # Composants réutilisables
+│   │   │   ├── Sidebar.jsx         # Sidebar collapsable
+│   │   │   ├── Topbar.jsx          # Barre supérieure
+│   │   │   ├── Layout.jsx          # Layout principal
+│   │   │   └── PrivateRoute.jsx    # Protection routes
+│   │   ├── pages/                  # Pages de l'application
+│   │   │   ├── Login.jsx           # Connexion/Inscription
+│   │   │   ├── Dashboard.jsx       # Tableau de bord
+│   │   │   ├── Clients.jsx         # Liste des clients
+│   │   │   ├── ClientDetail.jsx    # Détail client + chantiers
+│   │   │   └── Chantiers.jsx       # Gestion des chantiers
+│   │   ├── services/
+│   │   │   ├── api.js              # Services API
+│   │   │   └── AuthContext.jsx     # Contexte auth
+│   │   ├── styles/
+│   │   │   └── index.css           # Thème global
+│   │   ├── App.jsx
+│   │   └── main.jsx
 │   ├── package.json
 │   └── vite.config.js
 │
@@ -155,14 +196,26 @@ NODE_ENV=development
 
 **⚠️ Important** : Changez le JWT_SECRET en production !
 
-## 🗄️ Base de données
+## 🗄️ Base de données évolutive
 
-L'application utilise SQLite avec 4 tables principales :
+L'application utilise SQLite avec une **structure extensible** comprenant :
 
-- **users** - Utilisateurs de l'application
-- **clients** - Fiches clients
-- **chantiers** - Chantiers avec détails
-- **photos** - Photos liées aux chantiers
+### Tables actuellement utilisées :
+- **users** - Utilisateurs avec rôles
+- **clients** - Fiches clients détaillées (avec type client, téléphones multiples, etc.)
+- **chantiers** - Chantiers complets (budget, superficie, priorité, etc.)
+- **photos** - Photos avec ordre et catégories
+- **interventions** - Suivi détaillé des interventions sur chantiers
+
+### Tables préparées pour futures fonctionnalités :
+- **devis** + **devis_lignes** - Gestion de devis détaillés
+- **factures** - Facturation liée aux chantiers et devis
+- **equipements** + **chantiers_equipements** - Gestion du matériel
+
+### Optimisations :
+- Index sur les clés étrangères pour performances
+- Contraintes d'intégrité référentielle
+- Cascade pour suppressions cohérentes
 
 La base de données est créée automatiquement au premier démarrage dans `backend/database.sqlite`.
 
@@ -208,16 +261,35 @@ L'application utilise un thème sombre moderne avec :
 - `GET /api/photos/chantier/:chantierId` - Photos d'un chantier
 - `DELETE /api/photos/:id` - Supprimer une photo
 
-## 🚧 Améliorations futures possibles
+## 🚧 Fonctionnalités à venir (base déjà préparée)
 
-- Export PDF des chantiers
-- Calendrier des interventions
-- Gestion des devis
-- Facturation
-- Application mobile
-- Mode hors ligne
-- Notifications
-- Statistiques avancées
+L'architecture modulaire et la base de données sont déjà prêtes pour :
+
+### Commercial
+- ✨ Gestion des devis avec lignes détaillées
+- ✨ Facturation liée aux chantiers
+- ✨ Suivi des paiements
+- ✨ Export PDF
+
+### Planning
+- ✨ Calendrier des interventions
+- ✨ Gestion des équipements/matériels
+- ✨ Planning des ouvriers
+- ✨ Suivi du temps par chantier
+
+### Statistiques & Rapports
+- ✨ Tableaux de bord avancés
+- ✨ Rapports financiers
+- ✨ Analyse de rentabilité
+- ✨ Export des données
+
+### Autres
+- ✨ Notifications et rappels
+- ✨ Mode hors ligne
+- ✨ Application mobile
+- ✨ Multi-utilisateurs avec rôles
+
+**Note** : Les tables de base de données pour ces fonctionnalités sont déjà créées et prêtes à l'emploi !
 
 ## 📄 Licence
 

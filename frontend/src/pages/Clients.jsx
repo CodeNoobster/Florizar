@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { clientsAPI } from '../services/api';
 import './Clients.css';
 
@@ -167,6 +168,9 @@ const Clients = () => {
             </div>
 
             <div className="client-actions">
+              <Link to={`/clients/${client.id}`} className="btn btn-primary btn-sm">
+                Voir détails
+              </Link>
               <button className="btn btn-secondary btn-sm" onClick={() => handleEdit(client)}>
                 Modifier
               </button>
