@@ -12,3 +12,10 @@ uploads/
 data/database.sqlite
 data/uploads/*
 !data/uploads/.gitkeep
+
+# Scripts de démarrage
+.florizar.pid
+.backend.pid
+.frontend.pid
+backend.log
+frontend.log

@@ -2,6 +2,27 @@
 
 Application web complète pour la gestion de chantiers paysagistes avec suivi des clients, des travaux et des photos.
 
+## ⚡ Démarrage Rapide (Test & Itération)
+
+### 🖱️ **Double-cliquez simplement sur un fichier :**
+
+**Windows :**
+- `START.bat` - Démarre l'application en mode développement
+- `START-DOCKER.bat` - Démarre avec Docker
+
+**Linux / macOS :**
+- `START.sh` - Démarre l'application en mode développement
+- `START-DOCKER.sh` - Démarre avec Docker
+
+**Universel (Python) :**
+- `start.py` - Fonctionne sur tous les systèmes
+
+➜ **[Voir le guide de démarrage détaillé](DEMARRAGE-RAPIDE.md)**
+
+**Prérequis :** Installez simplement [Node.js](https://nodejs.org/) pour le mode dev, ou [Docker](https://www.docker.com/products/docker-desktop) pour le mode Docker.
+
+**Ensuite :** L'application s'ouvre automatiquement dans votre navigateur ! 🎉
+
 ## 📋 Fonctionnalités
 
 ### Architecture Évolutive
