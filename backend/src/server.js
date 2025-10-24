@@ -6,9 +6,12 @@ import { fileURLToPath } from 'url';
 
 // Import des routes
 import authRoutes from './routes/auth.js';
-import clientsRoutes from './routes/clients.js';
+import contactsRoutes from './routes/contacts.js';
+import tagsRoutes from './routes/tags.js';
 import chantiersRoutes from './routes/chantiers.js';
 import photosRoutes from './routes/photos.js';
+// Route de compatibilité (redirige vers contacts)
+import clientsRoutes from './routes/clients.js';
 
 // Import de la base de données pour initialiser les tables
 import './config/database.js';
@@ -87,9 +90,13 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/clients', clientsRoutes);
+app.use('/api/contacts', contactsRoutes);
+app.use('/api/tags', tagsRoutes);
 app.use('/api/chantiers', chantiersRoutes);
 app.use('/api/photos', photosRoutes);
+
+// Route de compatibilité (ancien endpoint /api/clients redirige vers /api/contacts)
+app.use('/api/clients', clientsRoutes);
 
 // Route de test
 app.get('/api/health', (req, res) => {

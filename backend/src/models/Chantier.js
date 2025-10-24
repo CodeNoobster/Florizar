@@ -1,50 +1,138 @@
 import db from '../config/database.js';
 
+/**
+ * Modèle Chantier
+ * Gère les chantiers liés aux contacts
+ */
 class Chantier {
   static getAll() {
     const stmt = db.prepare(`
-      SELECT c.*, cl.nom as client_nom, cl.prenom as client_prenom, cl.entreprise as client_entreprise
-      FROM chantiers c
-      LEFT JOIN clients cl ON c.client_id = cl.id
-      ORDER BY c.date_debut DESC
+      SELECT
+        ch.*,
+        c.nom as contact_nom,
+        c.prenom as contact_prenom,
+        c.raison_sociale as contact_raison_sociale,
+        c.type_personne as contact_type_personne
+      FROM chantiers ch
+      LEFT JOIN contacts c ON ch.contact_id = c.id
+      ORDER BY ch.date_debut DESC
     `);
     return stmt.all();
   }
 
   static getById(id) {
     const stmt = db.prepare(`
-      SELECT c.*, cl.nom as client_nom, cl.prenom as client_prenom, cl.entreprise as client_entreprise
-      FROM chantiers c
-      LEFT JOIN clients cl ON c.client_id = cl.id
-      WHERE c.id = ?
+      SELECT
+        ch.*,
+        c.nom as contact_nom,
+        c.prenom as contact_prenom,
+        c.raison_sociale as contact_raison_sociale,
+        c.type_personne as contact_type_personne,
+        c.email as contact_email,
+        c.telephone as contact_telephone
+      FROM chantiers ch
+      LEFT JOIN contacts c ON ch.contact_id = c.id
+      WHERE ch.id = ?
     `);
     return stmt.get(id);
   }
 
+  /**
+   * Récupérer tous les chantiers d'un contact
+   * Supporte à la fois contact_id et l'ancien client_id pour rétrocompatibilité
+   */
+  static getByContactId(contactId) {
+    const stmt = db.prepare('SELECT * FROM chantiers WHERE contact_id = ? ORDER BY date_debut DESC');
+    return stmt.all(contactId);
+  }
+
+  // Alias pour rétrocompatibilité
   static getByClientId(clientId) {
-    const stmt = db.prepare('SELECT * FROM chantiers WHERE client_id = ? ORDER BY date_debut DESC');
-    return stmt.all(clientId);
+    return this.getByContactId(clientId);
   }
 
   static create(chantierData) {
-    const { client_id, titre, date_debut, date_fin, statut, resume_travaux, notes_prochaine_fois } = chantierData;
+    const {
+      contact_id,
+      client_id, // Pour rétrocompatibilité
+      nom,
+      titre, // Pour rétrocompatibilité
+      adresse,
+      ville,
+      code_postal,
+      date_debut,
+      date_fin,
+      statut = 'planifie',
+      description,
+      travaux_realises,
+      travaux_a_faire,
+      budget_estime,
+      cout_reel,
+      superficie,
+      priorite = 'moyenne'
+    } = chantierData;
+
+    // Utiliser contact_id ou client_id (rétrocompatibilité)
+    const finalContactId = contact_id || client_id;
+    const finalNom = nom || titre;
+
     const stmt = db.prepare(`
-      INSERT INTO chantiers (client_id, titre, date_debut, date_fin, statut, resume_travaux, notes_prochaine_fois)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO chantiers (
+        contact_id, nom, adresse, ville, code_postal, date_debut, date_fin,
+        statut, description, travaux_realises, travaux_a_faire,
+        budget_estime, cout_reel, superficie, priorite
+      )
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
-    const result = stmt.run(client_id, titre, date_debut, date_fin || null, statut || 'en_cours', resume_travaux, notes_prochaine_fois);
+
+    const result = stmt.run(
+      finalContactId, finalNom, adresse, ville, code_postal,
+      date_debut, date_fin || null, statut, description,
+      travaux_realises, travaux_a_faire, budget_estime, cout_reel,
+      superficie, priorite
+    );
     return result.lastInsertRowid;
   }
 
   static update(id, chantierData) {
-    const { client_id, titre, date_debut, date_fin, statut, resume_travaux, notes_prochaine_fois } = chantierData;
+    const {
+      contact_id,
+      client_id, // Pour rétrocompatibilité
+      nom,
+      titre, // Pour rétrocompatibilité
+      adresse,
+      ville,
+      code_postal,
+      date_debut,
+      date_fin,
+      statut,
+      description,
+      travaux_realises,
+      travaux_a_faire,
+      budget_estime,
+      cout_reel,
+      superficie,
+      priorite
+    } = chantierData;
+
+    const finalContactId = contact_id || client_id;
+    const finalNom = nom || titre;
+
     const stmt = db.prepare(`
       UPDATE chantiers
-      SET client_id = ?, titre = ?, date_debut = ?, date_fin = ?, statut = ?,
-          resume_travaux = ?, notes_prochaine_fois = ?, updated_at = CURRENT_TIMESTAMP
+      SET contact_id = ?, nom = ?, adresse = ?, ville = ?, code_postal = ?,
+          date_debut = ?, date_fin = ?, statut = ?, description = ?,
+          travaux_realises = ?, travaux_a_faire = ?, budget_estime = ?,
+          cout_reel = ?, superficie = ?, priorite = ?, updated_at = CURRENT_TIMESTAMP
       WHERE id = ?
     `);
-    return stmt.run(client_id, titre, date_debut, date_fin || null, statut, resume_travaux, notes_prochaine_fois, id);
+
+    return stmt.run(
+      finalContactId, finalNom, adresse, ville, code_postal,
+      date_debut, date_fin || null, statut, description,
+      travaux_realises, travaux_a_faire, budget_estime, cout_reel,
+      superficie, priorite, id
+    );
   }
 
   static delete(id) {
