@@ -31,11 +31,13 @@ Le script **INSTALL** configure **automatiquement** :
 ### 🖱️ **Double-cliquez simplement sur un fichier :**
 
 **Windows :**
-- `START.bat` - Démarre l'application en mode développement
+- `START-AUTO.bat` ⭐ **RECOMMANDÉ** - Démarre automatiquement backend puis frontend
+- `START.bat` - Démarre en 2 fenêtres séparées
 - `START-DOCKER.bat` - Démarre avec Docker
 
 **Linux / macOS :**
-- `START.sh` - Démarre l'application en mode développement
+- `START-AUTO.sh` ⭐ **RECOMMANDÉ** - Démarre automatiquement backend puis frontend
+- `START.sh` - Démarre en 2 fenêtres séparées
 - `START-DOCKER.sh` - Démarre avec Docker
 
 **Universel (Python) :**

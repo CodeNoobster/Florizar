@@ -103,8 +103,13 @@ const Login = () => {
                 value={formData.password}
                 onChange={handleChange}
                 required
-                minLength="6"
+                minLength="8"
               />
+              {isRegister && (
+                <small className="form-hint">
+                  Minimum 8 caractères avec majuscule, minuscule, chiffre et caractère spécial (@$!%*?&)
+                </small>
+              )}
             </div>
 
             <button

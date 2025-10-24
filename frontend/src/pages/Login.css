@@ -55,6 +55,14 @@
   text-align: center;
 }
 
+.form-hint {
+  display: block;
+  margin-top: var(--spacing-xs);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
 .login-toggle {
   margin-top: var(--spacing-lg);
   text-align: center;

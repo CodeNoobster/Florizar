@@ -58,9 +58,33 @@ Le script **INSTALL** configure automatiquement **TOUT** pour vous :
 
 ## 🚀 Étape 3 : Démarrer l'Application
 
-Après l'installation, vous avez **2 choix** :
+Après l'installation, vous avez **3 options** :
 
-### Mode Développement (recommandé pour tests)
+### Option A : Démarrage Automatique (⭐ RECOMMANDÉ)
+
+Lance le backend, vérifie qu'il fonctionne, puis démarre le frontend automatiquement.
+
+**Windows :**
+```
+START-AUTO.bat
+```
+
+**Linux/Mac :**
+```bash
+./START-AUTO.sh
+```
+
+✅ **Avantages** :
+- Séquence de démarrage optimisée
+- Vérification automatique du backend avant de lancer le frontend
+- Pas besoin de gérer plusieurs fenêtres
+- Logs accessibles dans `backend/backend.log`
+
+➡️ L'application sera accessible sur : **http://localhost:5173**
+
+### Option B : Démarrage Manuel (2 fenêtres séparées)
+
+Ouvre 2 fenêtres : une pour le backend, une pour le frontend.
 
 **Windows :**
 ```
@@ -72,9 +96,9 @@ START.bat
 ./START.sh
 ```
 
-➡️ L'application sera accessible sur : **http://localhost:3000**
+➡️ L'application sera accessible sur : **http://localhost:5173**
 
-### Mode Docker (pour production)
+### Option C : Mode Docker (pour production)
 
 **Windows :**
 ```
@@ -87,6 +111,45 @@ START-DOCKER.bat
 ```
 
 ➡️ L'application sera accessible sur : **http://localhost**
+
+---
+
+## 🛑 Arrêter l'Application
+
+**Windows :**
+```
+STOP.bat
+```
+
+**Linux/Mac :**
+```bash
+./STOP.sh
+```
+
+Ou fermez simplement les fenêtres de terminal/cmd.
+
+---
+
+## 🔐 Première Connexion
+
+Après le démarrage, l'application s'ouvre sur la page de connexion.
+
+### Créer votre premier compte
+
+1. Cliquez sur **"Pas encore de compte ? S'inscrire"** en bas de la page
+2. Remplissez le formulaire d'inscription :
+   - **Nom d'utilisateur** : 3-30 caractères (lettres, chiffres, tirets, underscores)
+   - **Email** : votre adresse email valide
+   - **Mot de passe** : minimum 8 caractères avec :
+     - Au moins une majuscule
+     - Au moins une minuscule
+     - Au moins un chiffre
+     - Au moins un caractère spécial (@$!%*?&)
+3. Cliquez sur **"S'inscrire"**
+4. Vous serez redirigé vers la page de connexion
+5. Connectez-vous avec vos identifiants
+
+**Exemple de mot de passe valide** : `Florizar2024!`
 
 ---
 
@@ -136,11 +199,13 @@ Avant de lancer le script INSTALL, assurez-vous d'avoir :
    ↓
 3. Attendre la fin de l'installation automatique
    ↓
-4. Lancer START.bat (ou ./START.sh)
+4. Lancer START-AUTO.bat (ou ./START-AUTO.sh) ⭐
    ↓
-5. Ouvrir http://localhost:3000 dans votre navigateur
+5. Ouvrir http://localhost:5173 dans votre navigateur
    ↓
-6. Commencer à utiliser Florizar ! 🌿
+6. S'inscrire avec un compte sécurisé
+   ↓
+7. Commencer à utiliser Florizar ! 🌿
 ```
 
 ---
