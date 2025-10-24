@@ -1,6 +1,11 @@
 import express from 'express';
 import Chantier from '../models/Chantier.js';
 import { authenticateToken } from '../middleware/auth.js';
+import {
+  validateChantier,
+  validateIdParam,
+  validateClientIdParam,
+} from '../middleware/validators.js';
 
 const router = express.Router();
 
@@ -13,12 +18,13 @@ router.get('/', (req, res) => {
     const chantiers = Chantier.getAll();
     res.json(chantiers);
   } catch (error) {
+    console.error('Erreur récupération chantiers:', error);
     res.status(500).json({ error: 'Erreur lors de la récupération des chantiers' });
   }
 });
 
 // GET un chantier par ID
-router.get('/:id', (req, res) => {
+router.get('/:id', validateIdParam, (req, res) => {
   try {
     const chantier = Chantier.getById(req.params.id);
     if (!chantier) {
@@ -31,48 +37,64 @@ router.get('/:id', (req, res) => {
 
     res.json(chantier);
   } catch (error) {
+    console.error('Erreur récupération chantier:', error);
     res.status(500).json({ error: 'Erreur lors de la récupération du chantier' });
   }
 });
 
 // GET chantiers par client
-router.get('/client/:clientId', (req, res) => {
+router.get('/client/:clientId', validateClientIdParam, (req, res) => {
   try {
     const chantiers = Chantier.getByClientId(req.params.clientId);
     res.json(chantiers);
   } catch (error) {
+    console.error('Erreur récupération chantiers du client:', error);
     res.status(500).json({ error: 'Erreur lors de la récupération des chantiers du client' });
   }
 });
 
 // POST créer un nouveau chantier
-router.post('/', (req, res) => {
+router.post('/', validateChantier, (req, res) => {
   try {
     const chantierId = Chantier.create(req.body);
     const chantier = Chantier.getById(chantierId);
+    console.log(`✅ Nouveau chantier créé: ${chantier.nom} (ID: ${chantierId})`);
     res.status(201).json(chantier);
   } catch (error) {
+    console.error('Erreur création chantier:', error);
     res.status(500).json({ error: 'Erreur lors de la création du chantier' });
   }
 });
 
 // PUT mettre à jour un chantier
-router.put('/:id', (req, res) => {
+router.put('/:id', validateIdParam, validateChantier, (req, res) => {
   try {
+    const existingChantier = Chantier.getById(req.params.id);
+    if (!existingChantier) {
+      return res.status(404).json({ error: 'Chantier non trouvé' });
+    }
     Chantier.update(req.params.id, req.body);
     const chantier = Chantier.getById(req.params.id);
+    console.log(`✅ Chantier mis à jour: ${chantier.nom} (ID: ${req.params.id})`);
     res.json(chantier);
   } catch (error) {
+    console.error('Erreur mise à jour chantier:', error);
     res.status(500).json({ error: 'Erreur lors de la mise à jour du chantier' });
   }
 });
 
 // DELETE supprimer un chantier
-router.delete('/:id', (req, res) => {
+router.delete('/:id', validateIdParam, (req, res) => {
   try {
+    const existingChantier = Chantier.getById(req.params.id);
+    if (!existingChantier) {
+      return res.status(404).json({ error: 'Chantier non trouvé' });
+    }
     Chantier.delete(req.params.id);
+    console.log(`✅ Chantier supprimé: ${existingChantier.nom} (ID: ${req.params.id})`);
     res.json({ message: 'Chantier supprimé avec succès' });
   } catch (error) {
+    console.error('Erreur suppression chantier:', error);
     res.status(500).json({ error: 'Erreur lors de la suppression du chantier' });
   }
 });
