@@ -4,8 +4,6 @@
 # Lance le backend, vérifie qu'il tourne, puis lance le frontend
 # ============================================
 
-set -e
-
 # Couleurs
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
@@ -34,6 +32,26 @@ error() {
 info() {
     echo -e "${BLUE}ℹ $1${NC}"
 }
+
+echo "[0/8] Nettoyage des processus existants..."
+
+# Fermer tous les processus Node.js et npm existants
+echo "Fermeture de tous les processus Node.js et npm..."
+
+# Tuer les processus node (ignorer les erreurs si aucun processus trouvé)
+pkill -f "node src/server.js" 2>/dev/null || true
+pkill -f "npm run dev" 2>/dev/null || true
+pkill -f "vite" 2>/dev/null || true
+killall node 2>/dev/null || true
+killall npm 2>/dev/null || true
+
+# Attendre que les processus se terminent complètement
+sleep 2
+
+success "Nettoyage terminé"
+
+# À partir d'ici, activer la sortie en cas d'erreur
+set -e
 
 # Vérifier si Node.js est installé
 if ! command -v node &> /dev/null; then

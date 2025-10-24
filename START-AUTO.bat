@@ -10,6 +10,19 @@ echo    DEMARRAGE AUTOMATIQUE FLORIZAR
 echo ========================================
 echo.
 
+echo [0/8] Nettoyage des processus existants...
+
+REM Fermer tous les processus Node.js et npm existants
+echo Fermeture de tous les processus Node.js...
+taskkill /F /IM node.exe >nul 2>&1
+taskkill /F /IM npm.cmd >nul 2>&1
+taskkill /F /IM npm >nul 2>&1
+
+REM Attendre que les processus se terminent complètement
+timeout /t 2 /nobreak >nul
+
+echo Nettoyage termine
+
 REM Vérifier si Node.js est installé
 node --version >nul 2>&1
 if %ERRORLEVEL% NEQ 0 (
