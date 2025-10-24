@@ -7,3 +7,8 @@ uploads/
 .DS_Store
 .vscode/
 .idea/
+
+# Docker
+data/database.sqlite
+data/uploads/*
+!data/uploads/.gitkeep

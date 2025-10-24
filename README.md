@@ -62,18 +62,46 @@ Application web complète pour la gestion de chantiers paysagistes avec suivi de
 
 ## 📦 Installation
 
-### Prérequis
+### Option 1 : Docker (Recommandé ⭐)
+
+**Prérequis :**
+- Docker et Docker Compose installés
+
+**Installation en une commande :**
+
+```bash
+# Avec Make
+make install
+
+# OU avec Docker Compose directement
+docker-compose up -d
+```
+
+L'application sera accessible sur **http://localhost**
+
+**Commandes utiles :**
+```bash
+make logs          # Voir les logs
+make restart       # Redémarrer
+make down          # Arrêter
+make ps            # Statut des conteneurs
+make clean         # Nettoyer (⚠️ supprime les données)
+```
+
+### Option 2 : Installation manuelle (Développement)
+
+**Prérequis :**
 - Node.js (version 18 ou supérieure)
 - npm ou yarn
 
-### 1. Installation du backend
+#### 1. Installation du backend
 
 ```bash
 cd backend
 npm install
 ```
 
-### 2. Installation du frontend
+#### 2. Installation du frontend
 
 ```bash
 cd frontend
@@ -82,7 +110,24 @@ npm install
 
 ## 🚀 Démarrage
 
-### 1. Démarrer le backend (dans le dossier backend)
+### Avec Docker (Production)
+
+```bash
+# Démarrer
+docker-compose up -d
+
+# Voir les logs
+docker-compose logs -f
+
+# Arrêter
+docker-compose down
+```
+
+L'application est accessible sur **http://localhost**
+
+### Manuel (Développement)
+
+#### 1. Démarrer le backend (dans le dossier backend)
 
 ```bash
 npm start
@@ -92,7 +137,7 @@ npm run dev
 
 Le serveur démarre sur **http://localhost:5000**
 
-### 2. Démarrer le frontend (dans le dossier frontend)
+#### 2. Démarrer le frontend (dans le dossier frontend)
 
 ```bash
 npm run dev
@@ -153,8 +198,8 @@ Florizar/
 │   │   ├── controllers/            # Logique métier
 │   │   ├── middleware/             # Middleware auth
 │   │   └── server.js               # Serveur Express
-│   ├── uploads/                    # Photos uploadées
-│   ├── database.sqlite             # Base de données
+│   ├── Dockerfile                  # Image Docker backend
+│   ├── .dockerignore
 │   ├── package.json
 │   └── .env
 │
@@ -178,23 +223,46 @@ Florizar/
 │   │   │   └── index.css           # Thème global
 │   │   ├── App.jsx
 │   │   └── main.jsx
+│   ├── Dockerfile                  # Image Docker frontend
+│   ├── nginx.conf                  # Configuration nginx
+│   ├── .dockerignore
 │   ├── package.json
 │   └── vite.config.js
 │
+├── data/                           # Données persistantes (Docker)
+│   ├── database.sqlite             # Base de données
+│   └── uploads/                    # Photos uploadées
+│
+├── docker-compose.yml              # Orchestration Docker
+├── Makefile                        # Commandes simplifiées
+├── .dockerignore
+├── .env.docker                     # Config Docker (exemple)
 └── README.md
 ```
 
 ## 🔧 Configuration
 
-### Variables d'environnement (backend/.env)
+### Docker (Production)
+
+Copiez `.env.docker` vers `.env` et modifiez les valeurs :
+
+```env
+JWT_SECRET=votre_secret_jwt_tres_securise_change_me
+```
+
+**⚠️ Important** :
+- Changez ABSOLUMENT le JWT_SECRET en production !
+- Les données sont persistées dans le dossier `data/`
+
+### Manuel (Développement)
+
+Variables d'environnement dans `backend/.env` :
 
 ```env
 PORT=5000
 JWT_SECRET=votre_secret_jwt_tres_securise
 NODE_ENV=development
 ```
-
-**⚠️ Important** : Changez le JWT_SECRET en production !
 
 ## 🗄️ Base de données évolutive
 
@@ -260,6 +328,137 @@ L'application utilise un thème sombre moderne avec :
 - `POST /api/photos/upload-multiple/:chantierId` - Upload plusieurs photos
 - `GET /api/photos/chantier/:chantierId` - Photos d'un chantier
 - `DELETE /api/photos/:id` - Supprimer une photo
+
+## 🐳 Docker - Déploiement en production
+
+### Architecture Docker
+
+L'application est entièrement dockerisée et prête pour la production :
+
+**Services :**
+- **backend** : Node.js avec Express (API REST)
+- **frontend** : React buildé + Nginx (serveur web et reverse proxy)
+
+**Nginx** sert à :
+- Servir les fichiers statiques React (frontend)
+- Proxifier les requêtes `/api` vers le backend
+- Servir les fichiers uploadés `/uploads`
+- Gestion du cache et compression gzip
+
+**Persistance :**
+- Base de données SQLite : `./data/database.sqlite`
+- Photos uploadées : `./data/uploads/`
+
+### Commandes Docker
+
+```bash
+# Installation complète
+make install
+
+# Démarrer l'application
+make up
+# OU
+docker-compose up -d
+
+# Voir les logs en temps réel
+make logs
+# OU
+docker-compose logs -f
+
+# Redémarrer
+make restart
+
+# Arrêter
+make down
+
+# Voir le statut
+make ps
+
+# Accéder au shell backend
+make shell-backend
+
+# Nettoyer (⚠️ supprime les données)
+make clean
+```
+
+### Configuration avancée
+
+**Changer le port :**
+
+Éditez `docker-compose.yml` :
+```yaml
+services:
+  frontend:
+    ports:
+      - "8080:80"  # Application accessible sur port 8080
+```
+
+**Variables d'environnement :**
+
+Créez un fichier `.env` :
+```env
+JWT_SECRET=votre_secret_super_securise
+```
+
+**Volumes personnalisés :**
+
+Modifiez les chemins dans `docker-compose.yml` :
+```yaml
+volumes:
+  - /chemin/custom/database.sqlite:/app/database.sqlite
+  - /chemin/custom/uploads:/app/uploads
+```
+
+### Build des images
+
+```bash
+# Build complet
+docker-compose build
+
+# Build sans cache
+docker-compose build --no-cache
+
+# Build d'un service spécifique
+docker-compose build backend
+```
+
+### Monitoring
+
+```bash
+# Logs backend seulement
+docker-compose logs -f backend
+
+# Logs frontend seulement
+docker-compose logs -f frontend
+
+# Healthcheck status
+docker-compose ps
+```
+
+### Mise en production
+
+**1. Sécurité :**
+```bash
+# Changez le JWT_SECRET
+echo "JWT_SECRET=$(openssl rand -base64 32)" > .env
+```
+
+**2. Firewall :**
+```bash
+# Ouvrez uniquement le port 80 (ou 443 pour HTTPS)
+ufw allow 80/tcp
+```
+
+**3. HTTPS avec Let's Encrypt :**
+
+Ajoutez un service Certbot dans `docker-compose.yml` ou utilisez un reverse proxy (Traefik, Nginx Proxy Manager).
+
+**4. Sauvegarde automatique :**
+```bash
+# Script de sauvegarde (à mettre dans cron)
+#!/bin/bash
+tar -czf backup-$(date +%Y%m%d).tar.gz data/
+```
 
 ## 🚧 Fonctionnalités à venir (base déjà préparée)
 
