@@ -79,27 +79,103 @@ if %NEED_INSTALL%==1 (
     echo   INSTALLATION DES DEPENDANCES
     echo ========================================
     echo.
+    echo Cette operation peut prendre 2-3 minutes...
+    echo.
 
     echo [2/8] Installation des dependances backend...
-    cd backend
-    call npm install
-    if %ERRORLEVEL% NEQ 0 (
-        echo ERREUR: Installation backend echouee
-        cd ..
+    echo Repertoire actuel: %CD%
+
+    REM Vérifier que package.json existe
+    if not exist "backend\package.json" (
+        echo.
+        echo ERREUR CRITIQUE: backend\package.json n'existe pas !
+        echo Le projet semble corrompu ou incomplet.
+        echo.
         pause
         exit /b 1
     )
+
+    REM Nettoyer node_modules corrompu si existe
+    if exist "backend\node_modules" (
+        echo Nettoyage de node_modules corrompu...
+        rmdir /S /Q "backend\node_modules" 2>nul
+    )
+
+    cd backend
+    echo Installation en cours dans: %CD%
+    echo.
+
+    REM Afficher la sortie complète de npm install
+    npm install
+
+    if %ERRORLEVEL% NEQ 0 (
+        echo.
+        echo ========================================
+        echo   ERREUR: Installation backend echouee
+        echo ========================================
+        echo.
+        echo npm install a echoue. Erreurs possibles:
+        echo - Probleme de connexion internet
+        echo - npm corrompu (executez: npm cache clean --force)
+        echo - Chemin trop long ou caracteres speciaux
+        echo - Antivirus bloquant npm
+        echo.
+        echo Appuyez sur une touche pour voir plus de details...
+        pause
+        cd ..
+        exit /b 1
+    )
+
+    echo.
+    echo Backend installe avec succes !
     cd ..
 
     echo [3/8] Installation des dependances frontend...
-    cd frontend
-    call npm install
-    if %ERRORLEVEL% NEQ 0 (
-        echo ERREUR: Installation frontend echouee
-        cd ..
+    echo Repertoire actuel: %CD%
+
+    REM Vérifier que package.json existe
+    if not exist "frontend\package.json" (
+        echo.
+        echo ERREUR CRITIQUE: frontend\package.json n'existe pas !
+        echo Le projet semble corrompu ou incomplet.
+        echo.
         pause
         exit /b 1
     )
+
+    REM Nettoyer node_modules corrompu si existe
+    if exist "frontend\node_modules" (
+        echo Nettoyage de node_modules corrompu...
+        rmdir /S /Q "frontend\node_modules" 2>nul
+    )
+
+    cd frontend
+    echo Installation en cours dans: %CD%
+    echo.
+
+    REM Afficher la sortie complète de npm install
+    npm install
+
+    if %ERRORLEVEL% NEQ 0 (
+        echo.
+        echo ========================================
+        echo   ERREUR: Installation frontend echouee
+        echo ========================================
+        echo.
+        echo npm install a echoue. Erreurs possibles:
+        echo - Probleme de connexion internet
+        echo - npm corrompu (executez: npm cache clean --force)
+        echo - Chemin trop long ou caracteres speciaux
+        echo - Antivirus bloquant npm
+        echo.
+        echo Appuyez sur une touche pour voir plus de details...
+        pause
+        cd ..
+        exit /b 1
+    )
+
+    echo.
+    echo Frontend installe avec succes !
     cd ..
 
     echo [4/8] Configuration de l'environnement...
@@ -126,7 +202,10 @@ if %NEED_INSTALL%==1 (
     echo ========================================
     echo.
 ) else (
-    echo Toutes les dependances sont installees
+    echo Toutes les dependances sont correctement installees !
+    echo - Express, bcryptjs: OK
+    echo - React, Vite: OK
+    echo - Fichier .env: OK
 )
 
 echo [5/8] Verification et liberation du port 5000 (backend)...
