@@ -41,10 +41,7 @@ export const apiLimiter = rateLimit({
   },
   standardHeaders: true, // Retourne les infos de rate limit dans headers `RateLimit-*`
   legacyHeaders: false, // Désactive les headers `X-RateLimit-*`
-  // Fonction pour générer une clé unique par IP
-  keyGenerator: (req) => {
-    return req.ip || req.connection.remoteAddress;
-  },
+  // Utilise le keyGenerator par défaut qui gère correctement IPv4 et IPv6
 });
 
 /**

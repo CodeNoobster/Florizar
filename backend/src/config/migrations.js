@@ -95,24 +95,25 @@ const migrations = [
       // ÉTAPE 2: Migrer les données existantes de clients vers contacts_new
       db.exec(`
         INSERT INTO contacts_new (
-          id, type_personne, nom, prenom, email, telephone, adresse,
+          id, type_personne, nom, prenom, raison_sociale, email, telephone, adresse,
           ville, code_postal, pays, actif, notes, created_at, updated_at
         )
         SELECT
           id,
-          'physique' as type_personne,
+          CASE WHEN entreprise IS NOT NULL AND entreprise != '' THEN 'morale' ELSE 'physique' END as type_personne,
           nom,
           prenom,
+          entreprise as raison_sociale,
           email,
           telephone,
           adresse,
           ville,
           code_postal,
-          COALESCE(pays, 'France') as pays,
+          'France' as pays,
           1 as actif,
           notes,
           created_at,
-          created_at as updated_at
+          updated_at
         FROM clients
       `);
 
@@ -230,10 +231,35 @@ const migrations = [
         )
       `);
 
-      // Copier les données en renommant client_id en contact_id
+      // Copier les données en mappant les colonnes correctement
       db.exec(`
-        INSERT INTO chantiers_new
-        SELECT * FROM chantiers
+        INSERT INTO chantiers_new (
+          id, nom, contact_id, adresse, ville, code_postal,
+          date_debut, date_fin, statut, description,
+          travaux_realises, travaux_a_faire,
+          budget_estime, cout_reel, superficie, priorite,
+          created_at, updated_at
+        )
+        SELECT
+          id,
+          titre as nom,
+          client_id as contact_id,
+          NULL as adresse,
+          NULL as ville,
+          NULL as code_postal,
+          date_debut,
+          date_fin,
+          statut,
+          NULL as description,
+          resume_travaux as travaux_realises,
+          notes_prochaine_fois as travaux_a_faire,
+          NULL as budget_estime,
+          NULL as cout_reel,
+          NULL as superficie,
+          'moyenne' as priorite,
+          created_at,
+          updated_at
+        FROM chantiers
       `);
 
       db.exec(`DROP TABLE IF EXISTS chantiers`);
