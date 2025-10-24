@@ -40,6 +40,84 @@ if ! command -v node &> /dev/null; then
     error "Node.js n'est pas installé. Installez-le depuis https://nodejs.org/"
 fi
 
+echo "[1/8] Vérification des dépendances..."
+
+# Vérifier si les dépendances sont installées
+NEED_INSTALL=0
+
+if [ ! -d "backend/node_modules" ]; then
+    info "Dépendances backend manquantes"
+    NEED_INSTALL=1
+fi
+
+if [ ! -d "frontend/node_modules" ]; then
+    info "Dépendances frontend manquantes"
+    NEED_INSTALL=1
+fi
+
+if [ ! -f "backend/.env" ]; then
+    info "Fichier .env manquant"
+    NEED_INSTALL=1
+fi
+
+if [ $NEED_INSTALL -eq 1 ]; then
+    echo ""
+    echo "========================================"
+    echo "   INSTALLATION DES DEPENDANCES"
+    echo "========================================"
+    echo ""
+
+    echo "[2/8] Installation des dépendances backend..."
+    cd backend
+    npm install
+    if [ $? -ne 0 ]; then
+        error "Installation backend échouée"
+    fi
+    cd ..
+
+    echo "[3/8] Installation des dépendances frontend..."
+    cd frontend
+    npm install
+    if [ $? -ne 0 ]; then
+        error "Installation frontend échouée"
+    fi
+    cd ..
+
+    echo "[4/8] Configuration de l'environnement..."
+    cd backend
+    if [ ! -f ".env" ]; then
+        cp .env.example .env 2>/dev/null
+
+        # Générer un JWT_SECRET sécurisé
+        JWT_SECRET=$(node -e "console.log(require('crypto').randomBytes(32).toString('hex'))")
+
+        # Remplacer JWT_SECRET dans .env
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+            # macOS
+            sed -i '' "s/JWT_SECRET=.*/JWT_SECRET=$JWT_SECRET/" .env
+        else
+            # Linux
+            sed -i "s/JWT_SECRET=.*/JWT_SECRET=$JWT_SECRET/" .env
+        fi
+
+        success "Fichier .env créé avec JWT_SECRET sécurisé"
+    fi
+    cd ..
+
+    # Créer les dossiers nécessaires
+    mkdir -p backend/uploads
+    mkdir -p data/uploads
+    mkdir -p backups
+
+    echo ""
+    echo "========================================"
+    echo "   INSTALLATION TERMINEE !"
+    echo "========================================"
+    echo ""
+else
+    success "Toutes les dépendances sont installées"
+fi
+
 # Fonction pour libérer un port
 kill_port() {
     local port=$1
@@ -73,10 +151,10 @@ kill_port() {
 }
 
 # Libérer les ports avant de démarrer
-kill_port 5000 "backend" "1/6"
-kill_port 5173 "frontend" "2/6"
+kill_port 5000 "backend" "5/8"
+kill_port 5173 "frontend" "6/8"
 
-echo "[3/6] Démarrage du backend..."
+echo "[7/8] Démarrage du backend..."
 cd backend
 
 # Démarrer le backend en arrière-plan
@@ -85,7 +163,7 @@ BACKEND_PID=$!
 
 info "Backend démarré avec PID: $BACKEND_PID"
 
-echo "[4/6] Attente du backend (vérification du port 5000)..."
+echo "Attente du backend (vérification du port 5000)..."
 
 # Attendre que le backend soit prêt (max 30 secondes)
 counter=0
@@ -115,7 +193,7 @@ fi
 
 cd ..
 
-echo "[5/6] Démarrage du frontend..."
+echo "[8/8] Démarrage du frontend..."
 cd frontend
 
 # Démarrer le frontend dans un nouveau terminal
@@ -142,7 +220,7 @@ fi
 cd ..
 
 echo ""
-echo "[6/6] Florizar démarré !"
+echo "Florizar démarré !"
 echo ""
 echo "========================================"
 echo "  APPLICATION DEMARREE AVEC SUCCES"
