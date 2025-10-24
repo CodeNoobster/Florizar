@@ -1,19 +1,39 @@
 node_modules/
 dist/
 .env
-database.sqlite
-uploads/
 *.log
 .DS_Store
 .vscode/
 .idea/
 
-# Docker
+# ⚠️ DONNÉES UTILISATEUR - NE JAMAIS COMMITER ⚠️
+# Base de données (mode dev)
+database.sqlite
+database.sqlite-shm
+database.sqlite-wal
+backend/database.sqlite
+backend/database.sqlite-*
+
+# Sauvegardes automatiques
+backend/database_backup_*.sqlite
+
+# Photos uploadées (mode dev)
+uploads/
+backend/uploads/
+
+# Docker - Données persistantes
 data/database.sqlite
+data/database.sqlite-*
 data/uploads/*
 !data/uploads/.gitkeep
+!data/.gitkeep
 
-# Scripts de démarrage
+# Sauvegardes manuelles (optionnel de commiter les backups)
+backups/
+*.tar.gz
+*.zip
+
+# Scripts de démarrage - Fichiers temporaires
 .florizar.pid
 .backend.pid
 .frontend.pid

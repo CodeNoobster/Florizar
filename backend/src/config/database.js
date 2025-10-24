@@ -1,14 +1,28 @@
 import Database from 'better-sqlite3';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import fs from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const db = new Database(join(__dirname, '../../database.sqlite'));
+// Chemin de la base de données
+const dbPath = join(__dirname, '../../database.sqlite');
+
+// S'assurer que le dossier existe
+const dbDir = dirname(dbPath);
+if (!fs.existsSync(dbDir)) {
+  fs.mkdirSync(dbDir, { recursive: true });
+}
+
+// Créer ou ouvrir la base de données
+const db = new Database(dbPath);
 
 // Activer les clés étrangères
 db.pragma('foreign_keys = ON');
+
+// Configuration pour la durabilité
+db.pragma('journal_mode = WAL'); // Write-Ahead Logging pour meilleures performances
 
 // Créer les tables
 const createTables = () => {

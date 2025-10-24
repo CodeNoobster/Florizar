@@ -13,6 +13,9 @@ import photosRoutes from './routes/photos.js';
 // Import de la base de données pour initialiser les tables
 import './config/database.js';
 
+// Import du système de migrations
+import { runMigrations } from './config/migrations.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -51,8 +54,18 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Erreur serveur' });
 });
 
+// Exécuter les migrations avant de démarrer le serveur
+try {
+  runMigrations();
+} catch (error) {
+  console.error('❌ Erreur lors des migrations:', error);
+  console.error('⚠️  Le serveur ne démarrera pas. Vérifiez votre base de données.');
+  process.exit(1);
+}
+
 app.listen(PORT, () => {
   console.log(`🚀 Serveur Florizar démarré sur le port ${PORT}`);
   console.log(`📊 API disponible sur http://localhost:${PORT}/api`);
   console.log(`🖼️  Photos accessibles sur http://localhost:${PORT}/uploads`);
+  console.log(`💾 Base de données: ./database.sqlite`);
 });

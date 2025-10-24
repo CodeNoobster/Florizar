@@ -23,6 +23,32 @@ Application web complète pour la gestion de chantiers paysagistes avec suivi de
 
 **Ensuite :** L'application s'ouvre automatiquement dans votre navigateur ! 🎉
 
+---
+
+## 🛡️ Protection des Données
+
+### Vos données sont TOUJOURS conservées lors des mises à jour !
+
+- ✅ **Base de données SQLite** : Jamais effacée, toujours conservée
+- ✅ **Photos uploadées** : Persistées dans `uploads/` ou `data/uploads/`
+- ✅ **Système de migration** : Évolution du schéma sans perte de données
+- ✅ **Sauvegardes automatiques** : Avant chaque migration importante
+- ✅ **Exclusion Git** : Vos données ne seront jamais commitées par erreur
+
+### Sauvegardes
+
+**Créer une sauvegarde :**
+- Windows : Double-clic sur `BACKUP.bat`
+- Linux/Mac : `./BACKUP.sh`
+
+**Restaurer une sauvegarde :**
+- Windows : Double-clic sur `RESTORE.bat`
+- Linux/Mac : `./RESTORE.sh`
+
+➜ **[Guide complet de mise à jour](MISE-A-JOUR.md)**
+
+---
+
 ## 📋 Fonctionnalités
 
 ### Architecture Évolutive
