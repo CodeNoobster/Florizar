@@ -37,7 +37,21 @@ const Login = () => {
           setFormData({ username: '', email: '', password: '' });
           alert('Inscription réussie ! Vous pouvez maintenant vous connecter.');
         } else {
-          setError(result.error);
+          // Afficher les erreurs détaillées si disponibles
+          if (result.details && result.details.length > 0) {
+            setError(
+              <div>
+                <div>{result.error}</div>
+                <ul style={{ marginTop: '10px', paddingLeft: '20px', textAlign: 'left' }}>
+                  {result.details.map((detail, index) => (
+                    <li key={index}>{detail}</li>
+                  ))}
+                </ul>
+              </div>
+            );
+          } else {
+            setError(result.error);
+          }
         }
       } else {
         const result = await login(formData.username, formData.password);
@@ -107,7 +121,7 @@ const Login = () => {
               />
               {isRegister && (
                 <small className="form-hint">
-                  Minimum 8 caractères avec majuscule, minuscule, chiffre et caractère spécial (@$!%*?&)
+                  Minimum 8 caractères avec majuscule, minuscule, chiffre et caractère spécial (!@#$%^&*...)
                 </small>
               )}
             </div>

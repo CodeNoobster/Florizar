@@ -43,7 +43,8 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       return {
         success: false,
-        error: error.response?.data?.error || 'Erreur d\'inscription'
+        error: error.response?.data?.error || 'Erreur d\'inscription',
+        details: error.response?.data?.details || null
       };
     }
   };
