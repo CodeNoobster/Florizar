@@ -91,6 +91,36 @@ echo.
 :install_deps
 
 REM ============================================
+REM NETTOYAGE BASE DE DONNEES OBSOLETE
+REM ============================================
+
+REM Supprimer l'ancienne base de données si elle existe
+REM (Elle sera recréée automatiquement avec le bon schéma)
+if exist "backend\database.sqlite" (
+    echo.
+    echo Suppression de l'ancienne base de donnees...
+
+    REM Sauvegarder d'abord si le dossier backups existe
+    if not exist "backups" mkdir backups
+
+    REM Créer un nom de sauvegarde avec date/heure
+    for /f "tokens=2 delims==" %%I in ('wmic os get localdatetime /value 2^>nul') do set datetime=%%I
+    if defined datetime (
+        copy "backend\database.sqlite" "backups\database_backup_!datetime:~0,8!_!datetime:~8,6!.sqlite" >nul 2>&1
+        echo Ancienne base sauvegardee dans backups\
+    )
+
+    REM Supprimer les fichiers de base de données
+    del /F /Q "backend\database.sqlite" >nul 2>&1
+    del /F /Q "backend\database.sqlite-wal" >nul 2>&1
+    del /F /Q "backend\database.sqlite-shm" >nul 2>&1
+
+    echo Base de donnees obsolete supprimee
+    echo Une nouvelle base sera creee automatiquement
+    echo.
+)
+
+REM ============================================
 REM INSTALLATION BACKEND
 REM ============================================
 
