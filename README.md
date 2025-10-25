@@ -2,24 +2,33 @@
 
 Application web complète pour la gestion de chantiers paysagistes avec suivi des clients, des travaux et des photos.
 
-## 🚀 Démarrage Ultra-Rapide (NOUVEAU)
+## 🚀 Installation Ultra-Rapide (NOUVEAU)
 
-### ⭐ **Un seul fichier pour tout faire !**
+### ⭐ **Installation complète en 1 fichier !**
 
-**Windows uniquement :**
-```
-Double-cliquez sur UPDATE-AND-START.bat
-```
+**Windows uniquement - Première installation :**
 
-Le script **UPDATE-AND-START** fait **TOUT automatiquement** :
-- ✅ Met à jour depuis GitHub (dernière version)
-- ✅ Installe les dépendances si nécessaire
+1. Téléchargez **BOOTSTRAP.bat** depuis GitHub
+2. Mettez-le dans un dossier vide `C:\Florizar`
+3. Double-cliquez dessus
+
+Le script **BOOTSTRAP** fait **TOUT automatiquement** :
+- ✅ Clone le projet depuis GitHub
+- ✅ Installe toutes les dépendances
 - ✅ Lance le backend et le frontend
 - ✅ Ouvre l'application dans votre navigateur
 
-**Prérequis :** Installez uniquement [Node.js](https://nodejs.org/) (et optionnellement [Git](https://git-scm.com/) pour les mises à jour auto)
+**Prérequis :** Installez [Git](https://git-scm.com/) et [Node.js](https://nodejs.org/) avant de lancer BOOTSTRAP.bat
 
-➜ **[Guide de lancement rapide](LANCEMENT-RAPIDE.txt)**
+➜ **[Guide d'installation complet](COMMENT-INSTALLER.txt)**
+
+---
+
+**Utilisateurs existants - Mise à jour et lancement :**
+```
+Relancez simplement BOOTSTRAP.bat
+```
+Il mettra à jour depuis GitHub puis lancera l'application.
 
 ---
 
@@ -27,7 +36,8 @@ Le script **UPDATE-AND-START** fait **TOUT automatiquement** :
 
 ### 🖱️ **Scripts alternatifs :**
 
-- `UPDATE-AND-START.bat` ⭐ **RECOMMANDÉ** - Met à jour + installe + démarre
+- `BOOTSTRAP.bat` ⭐ **RECOMMANDÉ** - Clone/Met à jour + installe + démarre
+- `UPDATE-AND-START.bat` - Met à jour + installe + démarre (nécessite dépôt Git existant)
 - `START-AUTO.bat` - Démarre automatiquement (sans mise à jour)
 - `START.bat` - Démarre en 2 fenêtres séparées
 - `INSTALL.bat` - Installation manuelle des dépendances

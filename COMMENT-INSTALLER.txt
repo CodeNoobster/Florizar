@@ -1,0 +1,127 @@
+========================================
+  FLORIZAR - INSTALLATION FACILE
+========================================
+
+INSTALLATION COMPLETE EN 3 ETAPES
+----------------------------------
+
+1. TELECHARGEZ LE SCRIPT
+   ----------------------
+   Allez sur GitHub:
+   https://github.com/CodeNoobster/Florizar
+
+   Telechargez UNIQUEMENT le fichier:
+   → BOOTSTRAP.bat
+
+
+2. CREEZ UN DOSSIER VIDE
+   ----------------------
+   Sur votre PC, creez un dossier:
+   C:\Florizar
+
+   Mettez-y le fichier BOOTSTRAP.bat
+
+
+3. LANCEZ LE SCRIPT
+   -----------------
+   Double-cliquez sur BOOTSTRAP.bat
+
+   Le script fait TOUT automatiquement:
+   ✓ Clone le projet depuis GitHub
+   ✓ Installe toutes les dependances
+   ✓ Lance l'application
+   ✓ Ouvre le navigateur
+
+
+C'EST TOUT ! ☕
+
+
+PREREQUIS
+---------
+
+Avant de lancer BOOTSTRAP.bat, installez:
+
+1. Git
+   → https://git-scm.com/download/win
+   → Prenez "64-bit Git for Windows Setup"
+   → Installation par defaut (cliquez sur Next partout)
+
+2. Node.js
+   → https://nodejs.org/
+   → Prenez la version LTS (recommandee)
+   → Installation par defaut
+
+
+UTILISATION QUOTIDIENNE
+-----------------------
+
+Pour lancer Florizar:
+→ Double-clic sur BOOTSTRAP.bat
+
+Le script verifie automatiquement les mises a jour
+depuis GitHub avant de lancer l'application.
+
+
+STRUCTURE FINALE
+----------------
+
+Apres le premier lancement, votre dossier C:\Florizar
+contiendra:
+
+C:\Florizar\
+  ├── BOOTSTRAP.bat       ← LANCEZ CE FICHIER
+  ├── backend\            ← Code serveur
+  ├── frontend\           ├Code interface
+  ├── data\               ← Votre base de donnees
+  ├── uploads\            ← Vos photos
+  └── ...autres fichiers
+
+
+ARRETER L'APPLICATION
+---------------------
+
+Pour arreter Florizar:
+→ Fermez les 2 fenetres noires
+  ("Florizar Backend" et "Florizar Frontend")
+
+
+EN CAS DE PROBLEME
+------------------
+
+Si BOOTSTRAP.bat ne fonctionne pas:
+
+1. Verifiez que Git est installe:
+   - Ouvrez une invite de commandes
+   - Tapez: git --version
+   - Vous devriez voir: git version X.XX.X
+
+2. Verifiez que Node.js est installe:
+   - Ouvrez une invite de commandes
+   - Tapez: node --version
+   - Vous devriez voir: vXX.XX.X
+
+3. Verifiez votre connexion Internet
+   - Le script doit telecharger depuis GitHub
+
+4. Le dossier doit etre VIDE
+   - Gardez UNIQUEMENT BOOTSTRAP.bat
+   - Supprimez tout le reste avant le premier lancement
+
+
+MISE A JOUR
+-----------
+
+Pour mettre a jour Florizar:
+→ Relancez simplement BOOTSTRAP.bat
+
+Il detecte automatiquement qu'il y a deja des fichiers
+et fait un "git pull" pour recuperer les nouveautes.
+
+
+========================================
+
+Questions? Problemes?
+→ Consultez les issues sur GitHub
+→ https://github.com/CodeNoobster/Florizar/issues
+
+========================================
