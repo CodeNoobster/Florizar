@@ -1,7 +1,9 @@
 @echo off
+setlocal enabledelayedexpansion
 REM ============================================
 REM INSTALL-AND-START - Version ultra-simple
 REM Clone, installe et lance Florizar
+REM Fait automatiquement git pull si le projet existe
 REM ============================================
 
 echo.
@@ -15,9 +17,44 @@ echo Repertoire: %CD%
 echo.
 
 REM ============================================
-REM CLONAGE DU PROJET
+REM MISE A JOUR OU CLONAGE DU PROJET
 REM ============================================
 
+REM Vérifier si c'est déjà un dépôt Git
+if exist ".git\" (
+    echo Etape 1/3: Mise a jour depuis GitHub...
+    echo.
+
+    REM Sauvegarder les modifications locales si nécessaire
+    git status --porcelain >nul 2>&1
+    if not ERRORLEVEL 1 (
+        for /f %%i in ('git status --porcelain 2^>nul ^| find /c /v ""') do set CHANGES=%%i
+        if not "!CHANGES!"=="0" (
+            echo Modifications locales detectees, sauvegarde...
+            git stash push -m "Auto-sauvegarde %DATE% %TIME%"
+        )
+    )
+
+    echo Telechargement des mises a jour...
+    git pull origin main 2>nul
+
+    if ERRORLEVEL 1 (
+        git pull origin master 2>nul
+        if ERRORLEVEL 1 (
+            echo ATTENTION: Impossible de recuperer les mises a jour
+            echo Verifiez votre connexion Internet
+            echo Le script va continuer avec la version actuelle
+            timeout /t 3 /nobreak
+        )
+    )
+
+    echo.
+    echo Mise a jour terminee !
+    echo.
+    goto install_deps
+)
+
+REM Si pas de dépôt Git, cloner
 echo Etape 1/3: Clonage du projet...
 echo.
 echo Repository: https://github.com/CodeNoobster/Florizar.git
@@ -50,6 +87,8 @@ rmdir /S /Q %TEMP_DIR%
 echo.
 echo Clonage termine !
 echo.
+
+:install_deps
 
 REM ============================================
 REM INSTALLATION BACKEND

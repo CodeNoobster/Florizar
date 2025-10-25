@@ -42,11 +42,17 @@ Fermez les 2 fenêtres noires :
 RELANCER L'APPLICATION
 ----------------------
 
-Si vous avez déjà installé Florizar et voulez juste le relancer :
+Si vous avez déjà installé Florizar et voulez le relancer :
 
 1. Allez dans C:\Florizar
 2. Double-cliquez sur INSTALL-AND-START.bat
-   (il détectera que tout est déjà installé et lancera directement)
+
+Le script va automatiquement :
+- Faire git pull pour récupérer les dernières mises à jour
+- Vérifier les dépendances
+- Lancer l'application
+
+Plus besoin de tout réinstaller !
 
 
 EN CAS DE PROBLEME
