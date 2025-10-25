@@ -123,17 +123,25 @@ if %NEED_INSTALL%==1 (
     REM Afficher la sortie complète de npm install
     npm install
 
+    REM Attendre 2 secondes que Windows synchronise le système de fichiers
+    timeout /t 2 /nobreak >nul
+
     REM Vérifier que les packages critiques sont installés (ignore les codes erreur de vulnérabilités)
-    if not exist "node_modules\express" (
+    dir node_modules\express >nul 2>&1
+    if %ERRORLEVEL% NEQ 0 (
         echo.
         echo ========================================
         echo   ERREUR: Installation backend echouee
         echo ========================================
         echo.
         echo npm install n'a pas installe les packages necessaires.
+        echo Package express non trouve dans node_modules
+        echo Repertoire actuel: !CD!
+        echo.
+        dir /b node_modules 2>nul
         echo.
         echo Erreurs possibles:
-        echo - Probleme de connexion internet
+        echo - Probleme de synchronisation du systeme de fichiers
         echo - npm corrompu (executez: npm cache clean --force)
         echo - Chemin trop long ou caracteres speciaux
         echo - Antivirus bloquant npm
@@ -183,17 +191,25 @@ if %NEED_INSTALL%==1 (
     REM Afficher la sortie complète de npm install
     npm install
 
+    REM Attendre 2 secondes que Windows synchronise le système de fichiers
+    timeout /t 2 /nobreak >nul
+
     REM Vérifier que les packages critiques sont installés (ignore les codes erreur de vulnérabilités)
-    if not exist "node_modules\react" (
+    dir node_modules\react >nul 2>&1
+    if %ERRORLEVEL% NEQ 0 (
         echo.
         echo ========================================
         echo   ERREUR: Installation frontend echouee
         echo ========================================
         echo.
         echo npm install n'a pas installe les packages necessaires.
+        echo Package react non trouve dans node_modules
+        echo Repertoire actuel: !CD!
+        echo.
+        dir /b node_modules 2>nul
         echo.
         echo Erreurs possibles:
-        echo - Probleme de connexion internet
+        echo - Probleme de synchronisation du systeme de fichiers
         echo - npm corrompu (executez: npm cache clean --force)
         echo - Chemin trop long ou caracteres speciaux
         echo - Antivirus bloquant npm
