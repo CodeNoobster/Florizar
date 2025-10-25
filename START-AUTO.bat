@@ -4,10 +4,15 @@ REM Script de démarrage automatique de Florizar
 REM Lance le backend, vérifie qu'il tourne, puis lance le frontend
 REM ============================================
 
+REM Se positionner dans le répertoire du script (peu importe d'où il est lancé)
+cd /d "%~dp0"
+
 echo.
 echo ========================================
 echo    DEMARRAGE AUTOMATIQUE FLORIZAR
 echo ========================================
+echo.
+echo Repertoire de travail: %CD%
 echo.
 
 echo [0/8] Nettoyage des processus existants...
@@ -83,13 +88,13 @@ if %NEED_INSTALL%==1 (
     echo.
 
     echo [2/8] Installation des dependances backend...
-    echo Repertoire actuel: %CD%
 
     REM Vérifier que package.json existe
     if not exist "backend\package.json" (
         echo.
         echo ERREUR CRITIQUE: backend\package.json n'existe pas !
         echo Le projet semble corrompu ou incomplet.
+        echo Repertoire actuel: %CD%
         echo.
         pause
         exit /b 1
@@ -102,7 +107,16 @@ if %NEED_INSTALL%==1 (
     )
 
     cd backend
-    echo Installation en cours dans: %CD%
+    if %ERRORLEVEL% NEQ 0 (
+        echo.
+        echo ERREUR: Impossible de se positionner dans le repertoire backend
+        echo Repertoire actuel: %CD%
+        echo.
+        pause
+        exit /b 1
+    )
+
+    echo Installation dans: %CD%
     echo.
 
     REM Afficher la sortie complète de npm install
@@ -131,13 +145,13 @@ if %NEED_INSTALL%==1 (
     cd ..
 
     echo [3/8] Installation des dependances frontend...
-    echo Repertoire actuel: %CD%
 
     REM Vérifier que package.json existe
     if not exist "frontend\package.json" (
         echo.
         echo ERREUR CRITIQUE: frontend\package.json n'existe pas !
         echo Le projet semble corrompu ou incomplet.
+        echo Repertoire actuel: %CD%
         echo.
         pause
         exit /b 1
@@ -150,7 +164,16 @@ if %NEED_INSTALL%==1 (
     )
 
     cd frontend
-    echo Installation en cours dans: %CD%
+    if %ERRORLEVEL% NEQ 0 (
+        echo.
+        echo ERREUR: Impossible de se positionner dans le repertoire frontend
+        echo Repertoire actuel: %CD%
+        echo.
+        pause
+        exit /b 1
+    )
+
+    echo Installation dans: %CD%
     echo.
 
     REM Afficher la sortie complète de npm install
