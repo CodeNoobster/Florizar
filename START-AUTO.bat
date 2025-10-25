@@ -128,7 +128,7 @@ if %NEED_INSTALL%==1 (
 
     REM Vérifier que les packages critiques sont installés (ignore les codes erreur de vulnérabilités)
     dir node_modules\express >nul 2>&1
-    if %ERRORLEVEL% NEQ 0 (
+    if !ERRORLEVEL! NEQ 0 (
         echo.
         echo ========================================
         echo   ERREUR: Installation backend echouee
@@ -196,7 +196,7 @@ if %NEED_INSTALL%==1 (
 
     REM Vérifier que les packages critiques sont installés (ignore les codes erreur de vulnérabilités)
     dir node_modules\react >nul 2>&1
-    if %ERRORLEVEL% NEQ 0 (
+    if !ERRORLEVEL! NEQ 0 (
         echo.
         echo ========================================
         echo   ERREUR: Installation frontend echouee
