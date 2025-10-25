@@ -31,7 +31,7 @@ echo Nettoyage termine
 
 REM Vérifier si Node.js est installé
 node --version >nul 2>&1
-if %ERRORLEVEL% NEQ 0 (
+if !ERRORLEVEL! NEQ 0 (
     echo ERREUR: Node.js n'est pas installe
     echo Telechargez et installez Node.js depuis https://nodejs.org/
     pause
@@ -292,7 +292,7 @@ timeout /t 2 /nobreak >nul
 REM Vérifier si le port 5000 est ouvert
 powershell -Command "$client = New-Object Net.Sockets.TcpClient; try { $client.Connect('localhost', 5000); $client.Close(); exit 0 } catch { exit 1 }" >nul 2>&1
 
-if %ERRORLEVEL% EQU 0 (
+if !ERRORLEVEL! EQU 0 (
     echo Backend demarre avec succes !
     goto backend_ready
 )
