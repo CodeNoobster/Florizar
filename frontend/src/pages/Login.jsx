@@ -44,7 +44,11 @@ const Login = () => {
                 <div>{result.error}</div>
                 <ul style={{ marginTop: '10px', paddingLeft: '20px', textAlign: 'left' }}>
                   {result.details.map((detail, index) => (
-                    <li key={index}>{detail}</li>
+                    <li key={index}>
+                      {typeof detail === 'string'
+                        ? detail
+                        : detail.message || JSON.stringify(detail)}
+                    </li>
                   ))}
                 </ul>
               </div>
