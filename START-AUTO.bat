@@ -1,4 +1,5 @@
 @echo off
+setlocal enabledelayedexpansion
 REM ============================================
 REM Script de démarrage automatique de Florizar
 REM Lance le backend, vérifie qu'il tourne, puis lance le frontend
@@ -12,7 +13,7 @@ echo ========================================
 echo    DEMARRAGE AUTOMATIQUE FLORIZAR
 echo ========================================
 echo.
-echo Repertoire de travail: %CD%
+echo Repertoire de travail: !CD!
 echo.
 
 echo [0/8] Nettoyage des processus existants...
@@ -94,7 +95,7 @@ if %NEED_INSTALL%==1 (
         echo.
         echo ERREUR CRITIQUE: backend\package.json n'existe pas !
         echo Le projet semble corrompu ou incomplet.
-        echo Repertoire actuel: %CD%
+        echo Repertoire actuel: !CD!
         echo.
         pause
         exit /b 1
@@ -110,13 +111,13 @@ if %NEED_INSTALL%==1 (
     if %ERRORLEVEL% NEQ 0 (
         echo.
         echo ERREUR: Impossible de se positionner dans le repertoire backend
-        echo Repertoire actuel: %CD%
+        echo Repertoire actuel: !CD!
         echo.
         pause
         exit /b 1
     )
 
-    echo Installation dans: %CD%
+    echo Installation dans: !CD!
     echo.
 
     REM Afficher la sortie complète de npm install
@@ -154,7 +155,7 @@ if %NEED_INSTALL%==1 (
         echo.
         echo ERREUR CRITIQUE: frontend\package.json n'existe pas !
         echo Le projet semble corrompu ou incomplet.
-        echo Repertoire actuel: %CD%
+        echo Repertoire actuel: !CD!
         echo.
         pause
         exit /b 1
@@ -170,13 +171,13 @@ if %NEED_INSTALL%==1 (
     if %ERRORLEVEL% NEQ 0 (
         echo.
         echo ERREUR: Impossible de se positionner dans le repertoire frontend
-        echo Repertoire actuel: %CD%
+        echo Repertoire actuel: !CD!
         echo.
         pause
         exit /b 1
     )
 
-    echo Installation dans: %CD%
+    echo Installation dans: !CD!
     echo.
 
     REM Afficher la sortie complète de npm install
