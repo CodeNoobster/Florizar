@@ -1,0 +1,105 @@
+========================================
+  FLORIZAR - LANCEMENT RAPIDE
+========================================
+
+COMMENT DÉMARRER FLORIZAR ?
+---------------------------
+
+1. Double-cliquez sur: UPDATE-AND-START.bat
+
+C'est tout ! Le script fait TOUT automatiquement :
+  ✓ Met à jour depuis GitHub (dernière version)
+  ✓ Installe les dépendances si nécessaire
+  ✓ Lance le backend
+  ✓ Lance le frontend
+  ✓ Ouvre l'application dans votre navigateur
+
+
+PRÉREQUIS
+---------
+
+Avant la première utilisation, installez :
+
+1. Node.js (version LTS recommandée)
+   → https://nodejs.org/
+
+2. Git (pour les mises à jour automatiques)
+   → https://git-scm.com/
+   (optionnel - le script fonctionne sans Git mais sans mise à jour auto)
+
+
+UTILISATION
+-----------
+
+À CHAQUE FOIS que vous voulez lancer Florizar :
+  → Double-clic sur UPDATE-AND-START.bat
+
+Le script mettra automatiquement à jour l'application
+depuis GitHub avant de la lancer.
+
+
+QUE FAIRE EN CAS DE PROBLÈME ?
+-------------------------------
+
+Si UPDATE-AND-START.bat ne fonctionne pas :
+
+1. Vérifiez que Node.js est installé :
+   - Ouvrez une invite de commandes
+   - Tapez: node --version
+   - Vous devriez voir un numéro de version
+
+2. Essayez de nettoyer le cache npm :
+   - Ouvrez une invite de commandes
+   - Tapez: npm cache clean --force
+   - Relancez UPDATE-AND-START.bat
+
+3. Vérifiez votre antivirus :
+   - Certains antivirus bloquent npm
+   - Ajoutez le dossier Florizar aux exceptions
+
+4. Problème de mise à jour GitHub :
+   - Si Git n'est pas installé, le script fonctionne quand même
+   - Mais il n'effectuera pas de mise à jour automatique
+
+
+ARRÊTER L'APPLICATION
+---------------------
+
+Pour arrêter Florizar :
+  → Fermez les 2 fenêtres noires qui se sont ouvertes
+    ("Florizar Backend" et "Florizar Frontend")
+
+OU
+
+  → Appuyez sur Ctrl+C dans chaque fenêtre
+
+
+ACCÈS À L'APPLICATION
+---------------------
+
+Une fois lancée, l'application est accessible à :
+
+  Frontend: http://localhost:5173
+  Backend:  http://localhost:5000
+
+
+FICHIERS IMPORTANTS
+-------------------
+
+UPDATE-AND-START.bat  → Script principal (utilisez CELUI-CI)
+
+START-AUTO.bat        → Ancien script (ne plus utiliser)
+START.bat             → Ancien script (ne plus utiliser)
+INSTALL.bat           → Ancien script (ne plus utiliser)
+
+TEST-*.bat            → Scripts de diagnostic (si problème)
+VERIFIER-*.bat        → Scripts de vérification (si problème)
+
+
+========================================
+
+Pour toute question ou problème :
+→ Consultez README.md pour plus de détails
+→ Vérifiez les issues sur GitHub
+
+========================================

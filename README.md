@@ -2,36 +2,37 @@
 
 Application web complète pour la gestion de chantiers paysagistes avec suivi des clients, des travaux et des photos.
 
-## 🚀 Installation en 1 CLIC
+## 🚀 Démarrage Ultra-Rapide (NOUVEAU)
 
-### **Première fois ? Installez tout automatiquement !**
+### ⭐ **Un seul fichier pour tout faire !**
 
 **Windows uniquement :**
 ```
-Double-cliquez sur INSTALL.bat
+Double-cliquez sur UPDATE-AND-START.bat
 ```
 
-Le script **INSTALL** configure **automatiquement** :
-- ✅ Toutes les dépendances (backend + frontend)
-- ✅ Configuration de l'environnement (.env)
-- ✅ Génération sécurisée du JWT_SECRET
-- ✅ Tous les dossiers nécessaires
+Le script **UPDATE-AND-START** fait **TOUT automatiquement** :
+- ✅ Met à jour depuis GitHub (dernière version)
+- ✅ Installe les dépendances si nécessaire
+- ✅ Lance le backend et le frontend
+- ✅ Ouvre l'application dans votre navigateur
 
-➜ **[Guide d'installation détaillé](README-INSTALLATION.md)**
+**Prérequis :** Installez uniquement [Node.js](https://nodejs.org/) (et optionnellement [Git](https://git-scm.com/) pour les mises à jour auto)
+
+➜ **[Guide de lancement rapide](LANCEMENT-RAPIDE.txt)**
 
 ---
 
-## ⚡ Démarrage Rapide
+## ⚡ Autres Méthodes de Démarrage
 
-### 🖱️ **Double-cliquez simplement sur un fichier :**
+### 🖱️ **Scripts alternatifs :**
 
-- `START-AUTO.bat` ⭐ **RECOMMANDÉ** - Démarre automatiquement backend puis frontend
+- `UPDATE-AND-START.bat` ⭐ **RECOMMANDÉ** - Met à jour + installe + démarre
+- `START-AUTO.bat` - Démarre automatiquement (sans mise à jour)
 - `START.bat` - Démarre en 2 fenêtres séparées
-- `START-DOCKER.bat` - Démarre avec Docker
+- `INSTALL.bat` - Installation manuelle des dépendances
 
-➜ **[Voir le guide de démarrage détaillé](DEMARRAGE-RAPIDE.md)**
-
-**Prérequis :** Installez simplement [Node.js](https://nodejs.org/) pour le mode dev, ou [Docker](https://www.docker.com/products/docker-desktop) pour le mode Docker.
+➜ **[Voir tous les scripts disponibles](README-SCRIPTS.md)**
 
 **Ensuite :** L'application s'ouvre automatiquement dans votre navigateur ! 🎉
 
