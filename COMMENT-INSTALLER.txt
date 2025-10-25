@@ -27,6 +27,8 @@ INSTALLATION COMPLETE EN 3 ETAPES
    Double-cliquez sur BOOTSTRAP.bat
 
    Le script fait TOUT automatiquement:
+   ✓ Installe Git si necessaire
+   ✓ Installe Node.js si necessaire
    ✓ Clone le projet depuis GitHub
    ✓ Installe toutes les dependances
    ✓ Lance l'application
@@ -36,10 +38,14 @@ INSTALLATION COMPLETE EN 3 ETAPES
 C'EST TOUT ! ☕
 
 
-PREREQUIS
----------
+PREREQUIS (OPTIONNEL)
+---------------------
 
-Avant de lancer BOOTSTRAP.bat, installez:
+AUCUN PREREQUIS ! Le script installe automatiquement:
+- Git (si manquant)
+- Node.js (si manquant)
+
+Mais si vous voulez les installer manuellement AVANT:
 
 1. Git
    → https://git-scm.com/download/win
@@ -50,6 +56,9 @@ Avant de lancer BOOTSTRAP.bat, installez:
    → https://nodejs.org/
    → Prenez la version LTS (recommandee)
    → Installation par defaut
+
+NOTE: Si le script installe Git ou Node.js, il redemarrera
+automatiquement apres chaque installation.
 
 
 UTILISATION QUOTIDIENNE

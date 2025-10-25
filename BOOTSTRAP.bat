@@ -1,9 +1,8 @@
 @echo off
 REM ============================================
-REM BOOTSTRAP - Script de demarrage initial Florizar
-REM
-REM Ce script peut etre lance depuis un dossier VIDE
-REM Il clone le projet Git ou met a jour, puis lance tout
+REM BOOTSTRAP - Installation complete et automatique de Florizar
+REM Installe automatiquement Git et Node.js si necessaire
+REM Clone le projet, installe les dependances et lance l'application
 REM ============================================
 
 echo.
@@ -17,39 +16,139 @@ echo Repertoire actuel: %CD%
 echo.
 
 REM ============================================
-REM VERIFICATION DE GIT
+REM VERIFICATION ET INSTALLATION DE GIT
 REM ============================================
 
-echo [1/6] Verification de Git...
+echo [1/7] Verification de Git...
 
 git --version >nul 2>&1
 if ERRORLEVEL 1 (
     echo.
-    echo ========================================
-    echo   ERREUR: GIT N'EST PAS INSTALLE
-    echo ========================================
+    echo Git n'est pas installe - Installation automatique...
     echo.
-    echo Ce script necessite Git pour fonctionner.
+    echo Telechargement de Git (environ 50 MB)...
+    echo Cela peut prendre 1-2 minutes selon votre connexion...
     echo.
-    echo Telechargez et installez Git depuis:
-    echo https://git-scm.com/download/win
+
+    REM Télécharger Git avec PowerShell
+    powershell -Command "& {[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -Uri 'https://github.com/git-for-windows/git/releases/download/v2.43.0.windows.1/Git-2.43.0-64-bit.exe' -OutFile 'git-installer.exe'}"
+
+    if ERRORLEVEL 1 (
+        echo.
+        echo ========================================
+        echo   ERREUR: Telechargement de Git echoue
+        echo ========================================
+        echo.
+        echo Impossible de telecharger Git automatiquement.
+        echo.
+        echo Installez Git manuellement depuis:
+        echo https://git-scm.com/download/win
+        echo.
+        echo Puis relancez ce script.
+        echo.
+        pause
+        exit /b 1
+    )
+
+    echo Installation de Git en cours...
+    echo NE FERMEZ PAS cette fenetre !
     echo.
-    echo Apres l'installation:
-    echo 1. Redemarrez votre ordinateur
-    echo 2. Relancez ce script
+
+    REM Installer Git en mode silencieux
+    git-installer.exe /VERYSILENT /NORESTART /NOCANCEL /SP- /CLOSEAPPLICATIONS /RESTARTAPPLICATIONS /COMPONENTS="icons,ext\reg\shellhere,assoc,assoc_sh"
+
+    REM Attendre la fin de l'installation
+    timeout /t 10 /nobreak >nul
+
+    REM Supprimer l'installateur
+    del git-installer.exe >nul 2>&1
+
+    echo.
+    echo Git installe avec succes !
+    echo.
+    echo IMPORTANT: Le script va redemarrer pour prendre en compte Git
     echo.
     pause
-    exit /b 1
+
+    REM Relancer ce script pour que Git soit dans le PATH
+    start "" "%~f0"
+    exit /b 0
+) else (
+    echo Git installe: OK
 )
 
-echo Git installe: OK
+echo.
+
+REM ============================================
+REM VERIFICATION ET INSTALLATION DE NODE.JS
+REM ============================================
+
+echo [2/7] Verification de Node.js...
+
+node --version >nul 2>&1
+if ERRORLEVEL 1 (
+    echo.
+    echo Node.js n'est pas installe - Installation automatique...
+    echo.
+    echo Telechargement de Node.js LTS (environ 30 MB)...
+    echo Cela peut prendre 1-2 minutes selon votre connexion...
+    echo.
+
+    REM Télécharger Node.js LTS avec PowerShell
+    powershell -Command "& {[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -Uri 'https://nodejs.org/dist/v20.11.1/node-v20.11.1-x64.msi' -OutFile 'nodejs-installer.msi'}"
+
+    if ERRORLEVEL 1 (
+        echo.
+        echo ========================================
+        echo   ERREUR: Telechargement de Node.js echoue
+        echo ========================================
+        echo.
+        echo Impossible de telecharger Node.js automatiquement.
+        echo.
+        echo Installez Node.js manuellement depuis:
+        echo https://nodejs.org/
+        echo.
+        echo Puis relancez ce script.
+        echo.
+        pause
+        exit /b 1
+    )
+
+    echo Installation de Node.js en cours...
+    echo NE FERMEZ PAS cette fenetre !
+    echo Cela peut prendre 2-3 minutes...
+    echo.
+
+    REM Installer Node.js en mode silencieux
+    msiexec /i nodejs-installer.msi /quiet /norestart
+
+    REM Attendre la fin de l'installation
+    timeout /t 15 /nobreak >nul
+
+    REM Supprimer l'installateur
+    del nodejs-installer.msi >nul 2>&1
+
+    echo.
+    echo Node.js installe avec succes !
+    echo.
+    echo IMPORTANT: Le script va redemarrer pour prendre en compte Node.js
+    echo.
+    pause
+
+    REM Relancer ce script pour que Node.js soit dans le PATH
+    start "" "%~f0"
+    exit /b 0
+) else (
+    echo Node.js installe: OK
+)
+
 echo.
 
 REM ============================================
 REM DETECTION DE L'ETAT DU DEPOT
 REM ============================================
 
-echo [2/6] Verification du depot...
+echo [3/7] Verification du depot Git...
 
 set IS_GIT_REPO=0
 
@@ -137,7 +236,7 @@ REM ============================================
 
 :update_repo
 echo.
-echo [3/6] Mise a jour depuis GitHub...
+echo [4/7] Mise a jour depuis GitHub...
 echo.
 
 REM Sauvegarder les modifications locales
@@ -176,28 +275,7 @@ REM ============================================
 
 :install_deps
 
-echo [4/6] Verification de Node.js...
-
-node --version >nul 2>&1
-if ERRORLEVEL 1 (
-    echo.
-    echo ========================================
-    echo   ERREUR: NODE.JS N'EST PAS INSTALLE
-    echo ========================================
-    echo.
-    echo Telechargez et installez Node.js depuis:
-    echo https://nodejs.org/
-    echo.
-    echo Version recommandee: LTS (Long Term Support)
-    echo.
-    pause
-    exit /b 1
-)
-
-echo Node.js installe: OK
-echo.
-
-echo [5/6] Verification des dependances...
+echo [5/7] Verification des dependances...
 
 set NEED_INSTALL=0
 
@@ -247,6 +325,7 @@ echo Backend installe !
 if not exist ".env" (
     if exist ".env.example" (
         copy .env.example .env >nul 2>&1
+        echo Fichier .env cree
     )
 )
 
@@ -300,7 +379,7 @@ REM ============================================
 
 :start_app
 
-echo [6/6] Demarrage de l'application...
+echo [6/7] Preparation au demarrage...
 echo.
 
 REM Nettoyer les processus
@@ -317,6 +396,9 @@ for /f "tokens=5" %%a in ('netstat -ano ^| findstr :5173 ^| findstr LISTENING') 
 )
 
 timeout /t 1 /nobreak >nul
+
+echo [7/7] Demarrage de l'application...
+echo.
 
 echo Demarrage du backend...
 cd backend
@@ -358,7 +440,7 @@ cd ..
 
 echo.
 echo ========================================
-echo   APPLICATION DEMARREE !
+echo   APPLICATION DEMARREE AVEC SUCCES !
 echo ========================================
 echo.
 echo Backend:  http://localhost:5000
