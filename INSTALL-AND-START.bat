@@ -146,7 +146,7 @@ for /f "tokens=5" %%a in ('netstat -ano ^| findstr :5000 ^| findstr LISTENING 2^
     taskkill /F /PID %%a >nul 2>&1
 )
 
-for /f "tokens=5" %%a in ('netstat -ano ^| findstr :5173 ^| findstr LISTENING 2^>nul') do (
+for /f "tokens=5" %%a in ('netstat -ano ^| findstr :3000 ^| findstr LISTENING 2^>nul') do (
     taskkill /F /PID %%a >nul 2>&1
 )
 
@@ -196,7 +196,7 @@ echo   APPLICATION DEMARREE !
 echo ========================================
 echo.
 echo Backend:  http://localhost:5000
-echo Frontend: http://localhost:5173
+echo Frontend: http://localhost:3000
 echo.
 echo L'application s'ouvre dans votre navigateur...
 echo.
@@ -206,7 +206,7 @@ echo - Pour arreter: Fermez ces 2 fenetres
 echo.
 
 timeout /t 3 /nobreak >nul
-start http://localhost:5173
+start http://localhost:3000
 
 echo.
 echo Installation et demarrage termines !

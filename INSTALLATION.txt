@@ -1,0 +1,81 @@
+========================================
+  FLORIZAR - INSTALLATION
+========================================
+
+COMMENT INSTALLER FLORIZAR ?
+-----------------------------
+
+1. Installez Git et Node.js sur votre PC :
+   - Git : https://git-scm.com/download/win
+   - Node.js : https://nodejs.org/ (version LTS)
+
+2. Créez un dossier vide : C:\Florizar
+
+3. Téléchargez INSTALL-AND-START.bat depuis GitHub
+   et mettez-le dans C:\Florizar
+
+4. Double-cliquez sur INSTALL-AND-START.bat
+
+Le script va automatiquement :
+- Cloner le projet depuis GitHub
+- Installer toutes les dépendances
+- Lancer l'application
+- Ouvrir votre navigateur
+
+
+ACCES A L'APPLICATION
+---------------------
+
+Une fois lancée :
+- Backend : http://localhost:5000
+- Frontend : http://localhost:3000
+
+
+ARRETER L'APPLICATION
+---------------------
+
+Fermez les 2 fenêtres noires :
+- "Florizar Backend"
+- "Florizar Frontend"
+
+
+RELANCER L'APPLICATION
+----------------------
+
+Si vous avez déjà installé Florizar et voulez juste le relancer :
+
+1. Allez dans C:\Florizar
+2. Double-cliquez sur INSTALL-AND-START.bat
+   (il détectera que tout est déjà installé et lancera directement)
+
+
+EN CAS DE PROBLEME
+------------------
+
+Si l'application ne démarre pas :
+
+1. Vérifiez que Git et Node.js sont installés :
+   - Ouvrez une invite de commandes
+   - Tapez : git --version
+   - Tapez : node --version
+
+2. Vérifiez votre connexion Internet
+   (nécessaire pour télécharger le projet)
+
+3. Vérifiez que les ports 5000 et 3000 sont libres
+
+
+PREMIERE UTILISATION
+--------------------
+
+Au premier lancement, vous devez créer un compte :
+1. Cliquez sur "S'inscrire" ou "Register"
+2. Remplissez le formulaire
+3. Connectez-vous avec vos identifiants
+
+
+========================================
+
+Pour plus d'informations, consultez README.md
+
+========================================

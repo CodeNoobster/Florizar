@@ -2,49 +2,38 @@
 
 Application web complète pour la gestion de chantiers paysagistes avec suivi des clients, des travaux et des photos.
 
-## 🚀 Installation Ultra-Rapide (NOUVEAU)
+## 🚀 Installation Ultra-Simple
 
-### ⭐ **Installation complète en 1 fichier !**
+### ⭐ **Installation en 3 étapes !**
 
-**Windows uniquement - Première installation :**
+**Windows uniquement :**
 
-1. Téléchargez **BOOTSTRAP.bat** depuis GitHub
-2. Mettez-le dans un dossier vide `C:\Florizar`
-3. Double-cliquez dessus
+1. Installez **Git** et **Node.js** sur votre PC
+   - Git : https://git-scm.com/download/win
+   - Node.js : https://nodejs.org/ (version LTS)
 
-Le script **BOOTSTRAP** fait **TOUT automatiquement** :
+2. Téléchargez **INSTALL-AND-START.bat** depuis GitHub et mettez-le dans un dossier vide `C:\Florizar`
+
+3. **Double-cliquez** sur `INSTALL-AND-START.bat`
+
+Le script fait **TOUT automatiquement** :
 - ✅ Clone le projet depuis GitHub
-- ✅ Installe toutes les dépendances
-- ✅ Lance le backend et le frontend
+- ✅ Installe toutes les dépendances (backend + frontend)
+- ✅ Lance le backend (port 5000) et le frontend (port 3000)
 - ✅ Ouvre l'application dans votre navigateur
 
-**Prérequis :** Installez [Git](https://git-scm.com/) et [Node.js](https://nodejs.org/) avant de lancer BOOTSTRAP.bat
-
-➜ **[Guide d'installation complet](COMMENT-INSTALLER.txt)**
+➜ **[Guide d'installation détaillé](INSTALLATION.txt)**
 
 ---
 
-**Utilisateurs existants - Mise à jour et lancement :**
-```
-Relancez simplement BOOTSTRAP.bat
-```
-Il mettra à jour depuis GitHub puis lancera l'application.
+## 🌐 Accès à l'Application
 
----
+Une fois lancée, l'application est accessible à :
 
-## ⚡ Autres Méthodes de Démarrage
+- **Frontend** : http://localhost:3000
+- **Backend API** : http://localhost:5000
 
-### 🖱️ **Scripts alternatifs :**
-
-- `BOOTSTRAP.bat` ⭐ **RECOMMANDÉ** - Clone/Met à jour + installe + démarre
-- `UPDATE-AND-START.bat` - Met à jour + installe + démarre (nécessite dépôt Git existant)
-- `START-AUTO.bat` - Démarre automatiquement (sans mise à jour)
-- `START.bat` - Démarre en 2 fenêtres séparées
-- `INSTALL.bat` - Installation manuelle des dépendances
-
-➜ **[Voir tous les scripts disponibles](README-SCRIPTS.md)**
-
-**Ensuite :** L'application s'ouvre automatiquement dans votre navigateur ! 🎉
+**Première utilisation** : Créez un compte en cliquant sur "S'inscrire"
 
 ---
 
