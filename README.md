@@ -6,14 +6,9 @@ Application web complète pour la gestion de chantiers paysagistes avec suivi de
 
 ### **Première fois ? Installez tout automatiquement !**
 
-**Windows :**
+**Windows uniquement :**
 ```
 Double-cliquez sur INSTALL.bat
-```
-
-**Linux / Mac :**
-```bash
-./INSTALL.sh
 ```
 
 Le script **INSTALL** configure **automatiquement** :
@@ -26,22 +21,13 @@ Le script **INSTALL** configure **automatiquement** :
 
 ---
 
-## ⚡ Démarrage Rapide (Test & Itération)
+## ⚡ Démarrage Rapide
 
 ### 🖱️ **Double-cliquez simplement sur un fichier :**
 
-**Windows :**
 - `START-AUTO.bat` ⭐ **RECOMMANDÉ** - Démarre automatiquement backend puis frontend
 - `START.bat` - Démarre en 2 fenêtres séparées
 - `START-DOCKER.bat` - Démarre avec Docker
-
-**Linux / macOS :**
-- `START-AUTO.sh` ⭐ **RECOMMANDÉ** - Démarre automatiquement backend puis frontend
-- `START.sh` - Démarre en 2 fenêtres séparées
-- `START-DOCKER.sh` - Démarre avec Docker
-
-**Universel (Python) :**
-- `start.py` - Fonctionne sur tous les systèmes
 
 ➜ **[Voir le guide de démarrage détaillé](DEMARRAGE-RAPIDE.md)**
 
