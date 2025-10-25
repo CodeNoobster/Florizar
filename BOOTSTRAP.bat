@@ -81,37 +81,17 @@ echo   CLONAGE DU PROJET DEPUIS GITHUB
 echo ========================================
 echo.
 
-REM Vérifier si le dossier contient déjà des fichiers (hors ce script)
-set FILE_COUNT=0
-for %%F in (*) do (
-    if not "%%F"=="BOOTSTRAP.bat" (
-        set /a FILE_COUNT+=1
-    )
-)
-
-if %FILE_COUNT% GTR 0 (
-    echo.
-    echo ATTENTION: Le dossier n'est pas vide !
-    echo.
-    echo Le dossier contient deja des fichiers.
-    echo Le clonage va echouer si le dossier n'est pas vide.
-    echo.
-    echo Options:
-    echo 1. Supprimez tous les fichiers SAUF BOOTSTRAP.bat
-    echo 2. OU creez un nouveau dossier vide et mettez-y BOOTSTRAP.bat
-    echo.
-    pause
-    exit /b 1
-)
-
 echo Clonage de Florizar depuis GitHub...
 echo Repository: https://github.com/CodeNoobster/Florizar.git
 echo.
 echo Cela peut prendre 30-60 secondes...
 echo.
 
-REM Cloner dans le dossier actuel (avec le point)
-git clone https://github.com/CodeNoobster/Florizar.git .
+REM Créer un dossier temporaire unique
+set TEMP_CLONE=florizar_temp_%RANDOM%
+
+REM Cloner dans un dossier temporaire
+git clone https://github.com/CodeNoobster/Florizar.git %TEMP_CLONE%
 
 if ERRORLEVEL 1 (
     echo.
@@ -121,21 +101,32 @@ if ERRORLEVEL 1 (
     echo.
     echo Causes possibles:
     echo - Pas de connexion Internet
-    echo - Le dossier n'est pas vide
     echo - Probleme d'acces a GitHub
     echo.
-    echo Verifiez votre connexion et reessayez.
+    echo Verifiez votre connexion Internet et reessayez.
     echo.
     pause
     exit /b 1
 )
 
 echo.
+echo Copie des fichiers dans le dossier actuel...
+
+REM Déplacer tout le contenu du dossier temporaire vers le dossier actuel
+xcopy /E /I /Y "%TEMP_CLONE%\*" . >nul
+
+REM Copier aussi le dossier .git (important pour git pull futur)
+xcopy /E /I /Y /H "%TEMP_CLONE%\.git" .git >nul
+
+REM Supprimer le dossier temporaire
+rmdir /S /Q %TEMP_CLONE%
+
+echo.
 echo ========================================
 echo   CLONAGE REUSSI !
 echo ========================================
 echo.
-echo Le projet Florizar a ete telecharge.
+echo Le projet Florizar a ete telecharge avec succes !
 echo.
 
 goto install_deps
