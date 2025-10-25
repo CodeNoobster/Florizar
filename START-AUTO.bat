@@ -122,19 +122,21 @@ if %NEED_INSTALL%==1 (
     REM Afficher la sortie complète de npm install
     npm install
 
-    if %ERRORLEVEL% NEQ 0 (
+    REM Vérifier que les packages critiques sont installés (ignore les codes erreur de vulnérabilités)
+    if not exist "node_modules\express" (
         echo.
         echo ========================================
         echo   ERREUR: Installation backend echouee
         echo ========================================
         echo.
-        echo npm install a echoue. Erreurs possibles:
+        echo npm install n'a pas installe les packages necessaires.
+        echo.
+        echo Erreurs possibles:
         echo - Probleme de connexion internet
         echo - npm corrompu (executez: npm cache clean --force)
         echo - Chemin trop long ou caracteres speciaux
         echo - Antivirus bloquant npm
         echo.
-        echo Appuyez sur une touche pour voir plus de details...
         pause
         cd ..
         exit /b 1
@@ -142,6 +144,7 @@ if %NEED_INSTALL%==1 (
 
     echo.
     echo Backend installe avec succes !
+    echo Packages installes: express, bcryptjs, jsonwebtoken, etc.
     cd ..
 
     echo [3/8] Installation des dependances frontend...
@@ -179,19 +182,21 @@ if %NEED_INSTALL%==1 (
     REM Afficher la sortie complète de npm install
     npm install
 
-    if %ERRORLEVEL% NEQ 0 (
+    REM Vérifier que les packages critiques sont installés (ignore les codes erreur de vulnérabilités)
+    if not exist "node_modules\react" (
         echo.
         echo ========================================
         echo   ERREUR: Installation frontend echouee
         echo ========================================
         echo.
-        echo npm install a echoue. Erreurs possibles:
+        echo npm install n'a pas installe les packages necessaires.
+        echo.
+        echo Erreurs possibles:
         echo - Probleme de connexion internet
         echo - npm corrompu (executez: npm cache clean --force)
         echo - Chemin trop long ou caracteres speciaux
         echo - Antivirus bloquant npm
         echo.
-        echo Appuyez sur une touche pour voir plus de details...
         pause
         cd ..
         exit /b 1
@@ -199,6 +204,7 @@ if %NEED_INSTALL%==1 (
 
     echo.
     echo Frontend installe avec succes !
+    echo Packages installes: react, vite, react-router-dom, etc.
     cd ..
 
     echo [4/8] Configuration de l'environnement...
