@@ -29,7 +29,7 @@ export const authAPI = {
   register: (username, email, password) => api.post('/auth/register', { username, email, password }),
 };
 
-// Clients
+// Clients (legacy - redirige vers contacts)
 export const clientsAPI = {
   getAll: () => api.get('/clients'),
   getById: (id) => api.get(`/clients/${id}`),
@@ -37,6 +37,40 @@ export const clientsAPI = {
   update: (id, data) => api.put(`/clients/${id}`, data),
   delete: (id) => api.delete(`/clients/${id}`),
   search: (term) => api.get(`/clients/search/${term}`),
+};
+
+// Contacts (nouveau système)
+export const contactsAPI = {
+  getAll: (filters) => {
+    const params = new URLSearchParams();
+    if (filters?.actif !== undefined) params.append('actif', filters.actif);
+    if (filters?.type_personne) params.append('type_personne', filters.type_personne);
+    return api.get(`/contacts?${params.toString()}`);
+  },
+  getById: (id) => api.get(`/contacts/${id}`),
+  create: (data) => api.post('/contacts', data),
+  update: (id, data) => api.put(`/contacts/${id}`, data),
+  delete: (id) => api.delete(`/contacts/${id}`),
+  toggleActif: (id) => api.patch(`/contacts/${id}/toggle-actif`),
+  search: (term, filters) => {
+    const params = new URLSearchParams();
+    if (filters?.actif !== undefined) params.append('actif', filters.actif);
+    if (filters?.type_personne) params.append('type_personne', filters.type_personne);
+    return api.get(`/contacts/search/${term}?${params.toString()}`);
+  },
+  getStats: () => api.get('/contacts/stats'),
+  getByTag: (tagId, filters) => {
+    const params = new URLSearchParams();
+    if (filters?.actif !== undefined) params.append('actif', filters.actif);
+    return api.get(`/contacts/by-tag/${tagId}?${params.toString()}`);
+  },
+  // Tags
+  addTag: (contactId, tagId) => api.post(`/contacts/${contactId}/tags/${tagId}`),
+  removeTag: (contactId, tagId) => api.delete(`/contacts/${contactId}/tags/${tagId}`),
+  // Relations
+  addRelation: (contactId, data) => api.post(`/contacts/${contactId}/relations`, data),
+  removeRelation: (contactId, relationId) => api.delete(`/contacts/${contactId}/relations/${relationId}`),
+  getInterlocuteurs: (contactId) => api.get(`/contacts/${contactId}/interlocuteurs`),
 };
 
 // Chantiers

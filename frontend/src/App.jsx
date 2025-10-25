@@ -4,7 +4,7 @@ import PrivateRoute from './components/PrivateRoute';
 import Layout from './components/Layout';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
-import Clients from './pages/Clients';
+import Contacts from './pages/Contacts';
 import ClientDetail from './pages/ClientDetail';
 import Chantiers from './pages/Chantiers';
 
@@ -17,7 +17,10 @@ function App() {
 
           <Route element={<PrivateRoute><Layout /></PrivateRoute>}>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/clients" element={<Clients />} />
+            <Route path="/contacts" element={<Contacts />} />
+            <Route path="/contacts/:id" element={<ClientDetail />} />
+            {/* Routes legacy pour compatibilité */}
+            <Route path="/clients" element={<Contacts />} />
             <Route path="/clients/:id" element={<ClientDetail />} />
             <Route path="/chantiers" element={<Chantiers />} />
           </Route>

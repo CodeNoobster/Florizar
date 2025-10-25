@@ -74,12 +74,12 @@ const Sidebar = () => {
           {(expandedSections.gestion || collapsed) && (
             <div className="nav-submenu">
               <Link
-                to="/clients"
-                className={`nav-item submenu-item ${isActive('/clients') ? 'active' : ''}`}
-                title="Clients"
+                to="/contacts"
+                className={`nav-item submenu-item ${isActive('/contacts') || isActive('/clients') ? 'active' : ''}`}
+                title="Contacts"
               >
-                <span className="nav-icon">👥</span>
-                {!collapsed && <span className="nav-text">Clients</span>}
+                <span className="nav-icon">📇</span>
+                {!collapsed && <span className="nav-text">Contacts</span>}
               </Link>
 
               <Link
